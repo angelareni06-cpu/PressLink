@@ -1,0 +1,91 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+
+<h2 align="center">User Management</h2>
+
+<table border="1" align="center" height="100" width="100">
+
+    <tr>
+        <th>Sl.No</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Contact</th>
+        <th>Gender</th>
+        <th>DOB</th>
+        <th>Address</th>
+        <th>District</th>
+        <th>Place</th>
+        <th>Photo</th>
+        <th>Proof</th>
+        <th>Previous Work</th>
+        <th>Freelancer Type</th>
+        <th>Skill</th>
+        <th>Experience Level</th>
+        <th>Short Bio</th>
+        <th>Social Link</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in users %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.user_name}}</td>
+        <td>{{i.user_email}}</td>
+        <td>{{i.user_contact}}</td>
+        <td>{{i.user_gender}}</td>
+        <td>{{i.user_dob}}</td>
+        <td>{{i.user_address}}</td>
+        <td>{{i.place.district.district_name}}</td>
+        <td>{{i.place.place_name}}</td>
+
+        <td>
+            {% if i.user_photo %}
+            <img src="{{ i.user_photo.url }}" width="80">
+            {% endif %}
+        </td>
+
+        <td>
+            {% if i.user_proof %}
+            <img src="{{ i.user_proof.url }}" width="80">
+            {% endif %}
+        </td>
+
+        <td>
+            {% if i.user_work %}
+            <img src="{{ i.user_work.url }}" width="80">
+            {% endif %}
+        </td>
+
+        <td>{{i.skill_type.freelancer_type.freelancer_type}}</td>
+        <td>{{i.skill_type.skill_type}}</td>
+        <td>{{i.user_level}}</td>
+        <td>{{i.user_bio}}</td>
+        <td>{{i.user_social}}</td>
+
+        <td>
+            {% if i.user_status == 1 %}
+            Active
+            {% else %}
+            Blocked
+            {% endif %}
+        </td>
+
+        <td>
+            {% if i.user_status == 1 %}
+            <a href="{% url 'Admin:BlockUser' i.id %}">Block</a>
+            {% else %}
+            <a href="{% url 'Admin:UnblockUser' i.id %}">Unblock</a>
+            {% endif %}
+        </td>
+
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="19" align="center">No Users Found</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% endblock %}

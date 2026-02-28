@@ -1,0 +1,160 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+
+<h2 align="center">Verifier Registration</h2>
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <table border="1" align="center" cellpadding="6">
+
+        <tr>
+            <td>Name</td>
+            <td>
+                <input type="text" required name="txt_name" pattern="^[A-Z]+[a-zA-Z ]*$"
+                    title="First letter must be capital and only alphabets allowed">
+            </td>
+        </tr>
+
+        <tr>
+            <td>Email</td>
+            <td>
+                <input type="email" required name="txt_email">
+            </td>
+        </tr>
+
+        <tr>
+            <td>Contact</td>
+            <td>
+                <input type="text" required name="txt_contact" pattern="[7-9]{1}[0-9]{9}"
+                    title="Phone number must start with 7-9 and contain 10 digits">
+            </td>
+        </tr>
+
+        <tr>
+            <td>District</td>
+            <td>
+                <select name="sel_district" id="sel_district" required>
+                    <option value="">---select---</option>
+                    {% for i in district %}
+                    <option value="{{i.id}}">{{i.district_name}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Place</td>
+            <td>
+                <select name="sel_place" id="sel_place" required>
+                    <option value="">---select---</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Photo</td>
+            <td><input type="file" required name="file_photo"></td>
+        </tr>
+
+        <tr>
+            <td>Proof</td>
+            <td><input type="file" required name="file_proof"></td>
+        </tr>
+
+        <tr>
+            <td>Password</td>
+            <td>
+                <input type="password" required name="txt_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    title="Must contain number, uppercase, lowercase and 8+ characters">
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="Submit">
+            </td>
+        </tr>
+
+    </table>
+</form>
+
+<br><br>
+
+<!-- ================= VERIFIER LIST ================= -->
+
+<h3 align="center">Registered Verifiers</h3>
+
+<table border="1" align="center" cellpadding="6">
+
+    <tr>
+        <th>Sl.No</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Contact</th>
+        <th>District</th>
+        <th>Place</th>
+        <th>Photo</th>
+        <th>Proof</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in verifierData %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.verifier_name}}</td>
+        <td>{{i.verifier_email}}</td>
+        <td>{{i.verifier_contact}}</td>
+        <td>{{i.place.district.district_name}}</td>
+        <td>{{i.place.place_name}}</td>
+
+        <td>
+            {% if i.verifier_photo %}
+            <img src="{{ i.verifier_photo.url }}" width="80">
+            {% endif %}
+        </td>
+
+        <td>
+            {% if i.verifier_proof %}
+            <img src="{{ i.verifier_proof.url }}" width="80">
+            {% endif %}
+        </td>
+
+        <td>
+            <a href="{% url 'Admin:delverifier' i.id %}">Delete</a> | <br>
+            <a href="{% url 'Admin:AddSalary' i.id 'verifier' %}">Add Salary</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="9" align="center">No Verifiers Found</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Admin:verifierregistration' %}";
+</script>
+{% endif %}
+
+<!-- ================= AJAX PLACE SCRIPT ================= -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#sel_district").change(function () {
+        var did = $(this).val();
+
+        $.ajax({
+            url: "{% url 'Guest:ajaxplace' %}",
+            data: { did: did },
+            success: function (data) {
+                $("#sel_place").html(data);
+            }
+        });
+    });
+</script>
+
+{% endblock %}

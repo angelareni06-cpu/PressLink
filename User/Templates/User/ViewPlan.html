@@ -1,0 +1,88 @@
+{% extends 'User/Header.html' %}
+{% block content %}
+
+<style>
+    .page-wrapper {
+        min-height: 100vh;
+        padding: 40px;
+        background: linear-gradient(135deg, #d6f5ff, #e6fff2);
+        text-align: center;
+    }
+
+    .plan-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        width: 280px;
+        display: inline-block;
+        margin: 20px;
+    }
+
+    .plan-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #0099cc;
+    }
+
+    .price {
+        font-size: 22px;
+        color: #2ecc71;
+        margin: 10px 0;
+    }
+
+    .subscribe-btn {
+        background: #2ecc71;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .subscribe-btn:hover {
+        background: #27ae60;
+    }
+
+    .active-box {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="page-wrapper">
+
+    {% if subscription %}
+    <div class="active-box">
+        <h3>✅ Active Plan</h3>
+        <p><strong>{{subscription.plan.plan_name}}</strong></p>
+        <p>Expiry Date: {{subscription.expiry_date}}</p>
+        <p>Remaining Days: {{remaining_days}}</p>
+    </div>
+    {% else %}
+    <div class="active-box">
+        <h3>❌ No Active Subscription</h3>
+    </div>
+    {% endif %}
+
+    <h2>Available Plans</h2>
+
+    {% for p in plans %}
+    <div class="plan-card">
+        <div class="plan-title">{{p.plan_name}}</div>
+        <div class="price">₹ {{p.plan_amount}}</div>
+        <p>{{p.plan_description}}</p>
+        <p>Duration: {{p.plan_duration}} Days</p>
+
+        <a class="subscribe-btn" href="{% url 'User:Subscribe' p.id %}" onclick="return confirm('Subscribe this plan?')">
+            Subscribe
+        </a>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

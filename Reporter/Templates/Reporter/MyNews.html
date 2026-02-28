@@ -1,0 +1,86 @@
+{% extends 'Reporter/Header.html' %}
+{% block content %}
+
+<h3 align="center">My News</h3>
+
+<table border="1" align="center" cellpadding="10" style="background:#fff;">
+    <tr>
+        <th>Sl.No</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Image</th>
+        <th>Category</th>
+        <th>Subcategory</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in newsdata %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.news_title }}
+            {% if i.breaking == 1 %} <span style="color:red;font-weight:bold;">🚨 BREAKING</span> {% endif %}
+        </td>
+        <td>{{ i.news_content }}</td>
+        <td>
+            {% if i.news_image %}
+            <img src="{{ i.news_image.url }}" width="100" height="100">
+            {% else %}
+            No Image
+            {% endif %}
+        </td>
+        <td>{{ i.subcategory.category.category_name }}</td>
+        <td>{{ i.subcategory.subcategory_name }}</td>
+        <td>{{ i.news_date }}</td>
+
+        <!-- STATUS -->
+        <td>
+            {% if i.news_status == 0 %}
+            Waiting for Verification
+            {% elif i.news_status == 1 %}
+            Verified - Waiting for Editor
+            {% elif i.news_status == 2 %}
+            Rejected by Verifier
+            {% elif i.news_status == 7 %}
+            Editing by Editor
+            {% elif i.news_status == 8 %}
+            Edited - Please Confirm Edits
+            {% elif i.news_status == 9 %}
+            Edits Confirmed - Waiting for Publish
+            {% elif i.news_status == 10 %}
+            Published Successfully
+            {% endif %}
+        </td>
+
+        <!-- ACTION -->
+        <td>
+            {% if i.news_status == 8 %}
+            <a href="{% url 'Reporter:ConfirmEdits' i.id %}">Confirm Edits</a> |
+            <a href="{% url 'Reporter:ViewUpdatesR' i.id %}">View Update Remarks</a>
+            <br>
+            <a href="{% url 'Reporter:EditNews' i.id %}">Edit News Again</a>
+            {% elif i.news_status == 0 or i.news_status == 1 or i.news_status == 2 %}
+            <a href="{% url 'Reporter:EditNews' i.id %}">Edit News</a> |
+            <a href="{% url 'Reporter:delnews' i.id %}">Delete News</a>
+            {% else %}
+            No action
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="9" align="center">No News Found</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% if msg %}
+<script>
+    alert("{{ msg }}");
+    window.location = "{% url 'Reporter:MyNews' %}";
+</script>
+{% endif %}
+
+{% endblock %}

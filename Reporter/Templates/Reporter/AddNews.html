@@ -1,0 +1,341 @@
+{% extends 'Reporter/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsUpload</title>
+
+    <style>
+        /* Page Background */
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Segoe UI;
+            background: linear-gradient(to right, #eef7ff, #ffffff, #eefdf5);
+        }
+
+
+
+        /* Form Container */
+
+        form {
+            width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+
+
+        /* Table General */
+
+        table {
+            border-collapse: collapse;
+        }
+
+
+
+        /* Form Table */
+
+        form table {
+            width: 100%;
+        }
+
+
+
+        /* News List Table */
+
+        body>table {
+            width: 95%;
+            background: white;
+            margin: auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+        }
+
+
+
+        /* Labels */
+
+        td:first-child {
+            font-weight: 600;
+            color: #1aa3cc;
+        }
+
+
+
+        /* Cells */
+
+        td {
+            padding: 12px;
+        }
+
+
+
+        /* Header Row */
+
+        tr:first-child {
+            background: linear-gradient(to right, #cceeff, #ccf5e1);
+            font-weight: bold;
+            color: #006666;
+        }
+
+
+
+        /* Inputs */
+
+        input[type="text"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #cceeff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+
+
+        /* Textarea */
+
+        textarea {
+            height: 90px;
+            resize: none;
+        }
+
+
+
+        /* Focus */
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border: 1px solid #66cc99;
+            box-shadow: 0 0 5px #ccffee;
+        }
+
+
+
+        /* Button */
+
+        input[type="submit"] {
+            background: linear-gradient(to right, #66ccff, #66cc99);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+
+
+        /* Button Hover */
+
+        input[type="submit"]:hover {
+            background: linear-gradient(to right, #33bbff, #33cc88);
+        }
+
+
+
+        /* Image */
+
+        img {
+            border-radius: 6px;
+        }
+
+
+
+        /* Links */
+
+        a {
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            margin-right: 5px;
+        }
+
+
+
+        /* Delete */
+
+        a[href*="delnews"] {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+
+
+
+        /* Upload */
+
+        a[href*="UploadFiles"] {
+            background: #e6f7ff;
+            color: #006699;
+        }
+
+
+
+        /* Updates */
+
+        a[href*="ViewUpdates"] {
+            background: #e6fff2;
+            color: #009966;
+        }
+
+
+
+        /* Link Hover */
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+
+
+        /* Remove Borders */
+
+        table,
+        td {
+            border: none;
+        }
+
+
+
+        /* Alternate rows */
+
+        body>table tr:nth-child(even) {
+            background: #f9fefe;
+        }
+    </style>
+
+</head>
+
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {%csrf_token %}
+        <table border="1" align="center">
+            <tr>
+                <td>Title</td>
+                <td><input type="text" required name="txt_title" id="txt_title"></td>
+            </tr>
+            <tr>
+                <td>Content</td>
+                <td><textarea name="txt_content" id="txt_content" required></textarea></td>
+            </tr>
+            <tr>
+                <td>Image</td>
+                <td><input type="file" required name="file_image" id="file_image"></td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td><select name="sel_category" id="sel_category" required>
+                        <option value="">---select---</option>
+                        {% for i in category %}
+                        <option value="{{i.id}}">{{i.category_name}}</option>
+                        {% endfor %}
+                    </select></td>
+            </tr>
+            <tr>
+                <td>Subcategory</td>
+                <td><select name="sel_subcategory" id="sel_subcategory" required>
+                        <option value="">---select---</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td>Breaking News</td>
+                <td><select name="breaking">
+                        <option value="0">Normal</option>
+                        <option value="1">🚨 Breaking</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Submit"></td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
+
+
+
+    <table border="1" align="center">
+        <tr>
+            <td>Sl.No</td>
+            <td>Title</td>
+            <td>Content</td>
+            <td>Image</td>
+            <td>Category</td>
+            <td>Subcategory</td>
+            <td>Date</td>
+            <td>Action</td>
+        </tr>
+        {% for i in NewsData %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>
+                {{i.news_title}}
+
+                {% if i.breaking == 1 %}
+                <br>
+                <span style="color:red; font-weight:bold;">
+                    🚨 Breaking News
+                </span>
+                {% endif %}
+
+            </td>
+            <td>{{i.news_content}}</td>
+            <td><img src="{{i.news_image.url}}" alt="" width="100" height="100"></td>
+            <td>{{i.subcategory.category.category_name}}</td>
+            <td>{{i.subcategory.subcategory_name}}</td>
+            <td>{{i.news_date}}</td>
+            <td>
+
+                <a href="{% url 'Reporter:delnews' i.id %}">Delete</a>
+
+                <a href="{% url 'Reporter:UploadFiles' i.id %}">UploadFiles</a>
+
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Reporter:AddNews' %}";
+</script>
+{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#sel_category").change(function () {
+        var cid = $(this).val();
+
+        var ur = "{% url 'User:AjaxSubcategory' %}"
+        $.ajax({
+            url: ur,
+            data: { cid: cid, },
+            success: function (data) {
+                $("#sel_subcategory").html(data);
+            },
+        });
+    });
+</script>
+
+{% endblock %}

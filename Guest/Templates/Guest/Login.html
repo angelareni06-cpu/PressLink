@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <style>
+        /* Page Background */
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Segoe UI;
+            height: 100vh;
+
+            background: linear-gradient(135deg, #d6f5ff, #e6fff2, #ffffff);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        /* Login Card */
+
+        form {
+            background-color: white;
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+
+            animation: fadein 1s;
+        }
+
+
+        /* Animation */
+
+        @keyframes fadein {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+
+
+        /* Table */
+
+        table {
+            border-collapse: collapse;
+        }
+
+
+        /* Table Heading Style */
+
+        table tr:first-child td {
+            padding-top: 10px;
+        }
+
+
+        /* Labels */
+
+        td:first-child {
+            color: #0099cc;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+
+        /* Inputs */
+
+        input[type="text"],
+        input[type="password"] {
+            width: 250px;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            border: 1px solid #b3e0ff;
+
+            outline: none;
+
+            margin: 5px;
+        }
+
+
+        /* Input Focus */
+
+        input:focus {
+            border: 1px solid #66cc99;
+
+            box-shadow: 0 0 8px #ccffee;
+        }
+
+
+        /* Button */
+
+        input[type="submit"] {
+            margin-top: 15px;
+
+            background: linear-gradient(to right, #66ccff, #66cc99);
+
+            color: white;
+
+            border: none;
+
+            padding: 12px 35px;
+
+            border-radius: 25px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        /* Button Hover */
+
+        input[type="submit"]:hover {
+            transform: scale(1.05);
+
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+
+        /* Optional Border Remove */
+
+        table,
+        td {
+            border: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <form action="" method="post">
+        {%csrf_token %}
+        <table border="1" align="center">
+            <tr>
+                <td>Email</td>
+                <td><input type="text" required name="txt_email" id="txt_email"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" required name="txt_password" id="txt_password"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Submit"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>

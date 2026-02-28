@@ -1,0 +1,171 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+
+<h2 align="center">All Complaints</h2>
+
+<!-- ================= FREELANCER COMPLAINTS ================= -->
+
+<h3 align="center">Freelancers Complaints</h3>
+
+<table border="1" align="center" cellpadding="6">
+    <tr>
+        <th>Sl.No</th>
+        <th>Freelancer</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in complaintdata %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.user_id.user_name}}</td>
+        <td>{{i.complaint_title}}</td>
+        <td>{{i.complaint_content}}</td>
+        <td>
+            {% if i.complaint_status == 1 %}
+            Replied
+            {% else %}
+            Pending
+            {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'Admin:Reply' i.id %}">Reply</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6" align="center">No Freelancer Complaints</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br><br>
+
+<!-- ================= REPORTER COMPLAINTS ================= -->
+
+<h3 align="center">Reporters Complaints</h3>
+
+<table border="1" align="center" cellpadding="6">
+    <tr>
+        <th>Sl.No</th>
+        <th>Reporter</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in Complaintdata %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.reporter_id.reporter_name}}</td>
+        <td>{{i.complaint_title}}</td>
+        <td>{{i.complaint_content}}</td>
+        <td>
+            {% if i.complaint_status == 1 %}
+            Replied
+            {% else %}
+            Pending
+            {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'Admin:Reply' i.id %}">Reply</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6" align="center">No Reporter Complaints</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br><br>
+
+<!-- ================= VERIFIER COMPLAINTS ================= -->
+
+<h3 align="center">Verifiers Complaints</h3>
+
+<table border="1" align="center" cellpadding="6">
+    <tr>
+        <th>Sl.No</th>
+        <th>Verifier</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in complaintData %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.verifier_id.verifier_name}}</td>
+        <td>{{i.complaint_title}}</td>
+        <td>{{i.complaint_content}}</td>
+        <td>
+            {% if i.complaint_status == 1 %}
+            Replied
+            {% else %}
+            Pending
+            {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'Admin:Reply' i.id %}">Reply</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6" align="center">No Verifier Complaints</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br><br>
+
+<!-- ================= EDITOR COMPLAINTS ================= -->
+
+<h3 align="center">Editors Complaints</h3>
+
+<table border="1" align="center" cellpadding="6">
+    <tr>
+        <th>Sl.No</th>
+        <th>Editor</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in ComplaintData %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.editor_id.editor_name}}</td>
+        <td>{{i.complaint_title}}</td>
+        <td>{{i.complaint_content}}</td>
+        <td>
+            {% if i.complaint_status == 1 %}
+            Replied
+            {% else %}
+            Pending
+            {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'Admin:Reply' i.id %}">Reply</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6" align="center">No Editor Complaints</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Admin:viewComplaints' %}";
+</script>
+{% endif %}
+
+{% endblock %}

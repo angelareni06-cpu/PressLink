@@ -1,0 +1,52 @@
+{% extends 'Verifier/Header.html' %}
+{% block content %}
+
+<h3 align="center">Edit Profile</h3>
+
+<form method="post">
+    {% csrf_token %}
+
+    <table border="1" align="center">
+
+        <tr>
+            <td>Name</td>
+            <td>
+                <input type="text" name="txt_name" id="txt_name" pattern="^[A-Z][a-zA-Z ]*$"
+                    title="Allows Only Alphabets, Spaces and First Letter Must Be Capital"
+                    value="{{ verifierData.verifier_name }}" required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Email</td>
+            <td>
+                <input type="email" name="txt_email" id="txt_email" value="{{ verifierData.verifier_email }}" required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Contact</td>
+            <td>
+                <input type="text" name="txt_contact" id="txt_contact" pattern="[7-9]{1}[0-9]{9}"
+                    title="Phone number must start with 7-9 and contain 10 digits"
+                    value="{{ verifierData.verifier_contact }}" required>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="Update">
+            </td>
+        </tr>
+
+    </table>
+</form>
+
+{% if msg %}
+<script>
+    alert("{{ msg }}");
+    window.location = "{% url 'Verifier:MyProfile' %}";
+</script>
+{% endif %}
+
+{% endblock %}

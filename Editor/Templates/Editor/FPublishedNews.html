@@ -1,0 +1,156 @@
+{% extends 'Editor/Header.html' %}
+{% block content %}
+
+<style>
+    .page-wrapper {
+        min-height: 100vh;
+        padding-top: 70px;
+        font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #cfe9ff, #d1f5ea);
+    }
+
+    /* Card */
+    .profile-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
+        border-top: 6px solid #bde3ff;
+        border-bottom: 6px solid #8ee0c1;
+
+        max-width: 450px;
+        width: 90%;
+        margin: auto;
+
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    /* Fade Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    /* Table text */
+    td {
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    /* Label */
+    td:first-child {
+        color: #5aa7d6;
+        font-weight: 600;
+    }
+
+    /* Input */
+    input[type="text"],
+    input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 2px solid #bde3ff;
+        font-size: 15px;
+        outline: none;
+        background: #f8fdff;
+        transition: 0.3s;
+    }
+
+    /* Focus */
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+        border: 2px solid #8ee0c1;
+        background: white;
+        box-shadow: 0px 0px 8px rgba(142, 224, 193, 0.4);
+    }
+
+    /* Button */
+    input[type="submit"] {
+        background: #8ee0c1;
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* Button hover */
+    input[type="submit"]:hover {
+        background: #5aa7d6;
+        transform: scale(1.05);
+    }
+</style>
+
+
+<div class="page-wrapper">
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="profile-card">
+
+            <table align="center">
+
+                <tr>
+                    <td>Name</td>
+                    <td>
+                        <input type="text" required name="txt_name" pattern="^[A-Z]+[a-zA-Z ]*$"
+                            title="First letter must be capital and only alphabets allowed"
+                            value="{{editordata.editor_name}}">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Email</td>
+                    <td>
+                        <input type="email" required name="txt_email" value="{{editordata.editor_email}}">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Contact</td>
+                    <td>
+                        <input type="text" required name="txt_contact" pattern="[7-9]{1}[0-9]{9}"
+                            title="Phone number must start with 7-9 and contain 10 digits"
+                            value="{{editordata.editor_contact}}">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Update">
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Editor:MyProfile' %}";
+</script>
+{% endif %}
+
+{% endblock %}

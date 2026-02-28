@@ -1,0 +1,182 @@
+{% extends 'Reporter/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewUpdates</title>
+
+    <style>
+        /* Page Background */
+
+        body {
+
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+
+            background: linear-gradient(to right, #ecfdf5, #d1fae5);
+
+        }
+
+
+        /* Form spacing */
+
+        form {
+
+            margin-top: 40px;
+
+        }
+
+
+        /* Table Design */
+
+        table {
+
+            border-collapse: collapse;
+
+            width: 600px;
+
+            background: white;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        /* Header Row */
+
+        tr:first-child {
+
+            background: linear-gradient(to right, #a7f3d0, #6ee7b7);
+
+            color: #065f46;
+
+            font-weight: 600;
+
+        }
+
+
+        /* Table Cells */
+
+        td {
+
+            padding: 14px;
+
+            border-bottom: 1px solid #ecfdf5;
+
+            text-align: center;
+
+        }
+
+
+        /* Alternate row hover */
+
+        tr:hover {
+
+            background: #f0fdf4;
+
+            transition: 0.3s;
+
+        }
+
+
+        /* Action Links */
+
+        a {
+
+            text-decoration: none;
+
+            color: #065f46;
+
+            padding: 6px 14px;
+
+            border-radius: 6px;
+
+            font-weight: 600;
+
+            margin: 3px;
+
+            display: inline-block;
+
+            transition: 0.3s;
+
+        }
+
+
+        /* Hover effect */
+
+        a:hover {
+
+            background: #6ee7b7;
+
+            color: white;
+
+            transform: scale(1.05);
+
+        }
+
+
+        /* Remove last border */
+
+        tr:last-child td {
+
+            border-bottom: none;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <form action="" method="post">
+
+        {%csrf_token %}
+
+        <table border="1" align="center">
+
+            <tr>
+                <td>Sl.No</td>
+                <td>Remarks</td>
+                <td>Action</td>
+            </tr>
+
+            {% for i in updates %}
+
+            <tr>
+
+                <td>{{forloop.counter}}</td>
+
+                <td>{{i.newsupdatesr_remarks}}</td>
+
+                <td>
+                    <a href="{% url 'Reporter:EditNews' i.news.id %}">Edit News</a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </form>
+
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Reporter:MyNews' %}";
+</script>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'User/Header.html' %}
+{% block content %}
+
+<h3 align="center">Edit News</h3>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <table border="1" align="center">
+
+        <tr>
+            <td>Title</td>
+            <td>
+                <input type="text" name="txt_title" id="txt_title" value="{{ NewsData.news_title }}" required>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Content</td>
+            <td>
+                <textarea name="txt_content" id="txt_content" required>
+{{ NewsData.news_content }}</textarea>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Image</td>
+            <td>
+                <input type="file" name="file_image" id="file_image">
+
+                {% if NewsData.news_image %}
+                <br>
+                <img src="{{ NewsData.news_image.url }}" width="150">
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Category</td>
+            <td>
+                <select name="sel_category" id="sel_category" required>
+                    <option value="">---select---</option>
+                    {% for i in category %}
+                    <option value="{{ i.id }}" {% if i.id==NewsData.subcategory.category.id %} selected {% endif %}>
+                        {{ i.category_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Subcategory</td>
+            <td>
+                <select name="sel_subcategory" id="sel_subcategory" data-selected="{{ NewsData.subcategory.id }}"
+                    required>
+                    <option value="">---select---</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="Update">
+            </td>
+        </tr>
+
+    </table>
+</form>
+
+
+{% if msg %}
+<script>
+    alert("{{ msg }}");
+    window.location = "{% url 'User:UploadNews' %}";
+</script>
+{% endif %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    function loadSubcategory(cid, selectedSubcat = null) {
+        var ur = "{% url 'User:AjaxSubcategory' %}";
+
+        $.ajax({
+            url: ur,
+            data: { cid: cid },
+            success: function (data) {
+                $("#sel_subcategory").html(data);
+
+                if (selectedSubcat) {
+                    $("#sel_subcategory").val(selectedSubcat);
+                }
+            }
+        });
+    }
+
+    $("#sel_category").change(function () {
+        var cid = $(this).val();
+        loadSubcategory(cid);
+    });
+
+    $(document).ready(function () {
+        var cid = $("#sel_category").val();
+        var selectedSubcat = $("#sel_subcategory").data("selected");
+
+        if (cid) {
+            loadSubcategory(cid, selectedSubcat);
+        }
+    });
+</script>
+
+{% endblock %}

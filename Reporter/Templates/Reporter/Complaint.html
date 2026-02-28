@@ -1,0 +1,184 @@
+{% extends 'Reporter/Header.html' %}
+{% block content %}
+
+<style>
+    /* Background */
+    .page-wrapper {
+        padding: 30px;
+        background-color: #e8f8f5;
+        min-height: 100vh;
+    }
+
+    /* Form spacing */
+    form {
+        margin-top: 20px;
+    }
+
+    /* Heading */
+    h3 {
+        margin-top: 25px;
+        color: #45b39d;
+        font-weight: 600;
+    }
+
+    /* Table */
+    table {
+        width: 700px;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+
+    /* Cells */
+    td {
+        padding: 12px 18px;
+        border: 1px solid #d1f2eb;
+    }
+
+    /* Header Row */
+    tr:first-child {
+        background-color: #ffffff;
+        color: #45b39d;
+        font-weight: bold;
+    }
+
+    /* Inputs */
+    input[type="text"],
+    textarea {
+        width: 260px;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #a3e4d7;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+        border-color: #48c9b0;
+        box-shadow: 0 0 5px rgba(72, 201, 176, 0.3);
+    }
+
+    textarea {
+        height: 80px;
+        resize: none;
+    }
+
+    input[type="submit"] {
+        background-color: #48c9b0;
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #1abc9c;
+        transform: scale(1.05);
+    }
+
+    a {
+        text-decoration: none;
+        background-color: #e1f9f4;
+        color: #2c3e50;
+        padding: 6px 14px;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    a:hover {
+        background-color: #16a085;
+        color: white;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 15px;
+        color: #888;
+    }
+</style>
+
+<div class="page-wrapper">
+
+    <!-- Complaint Form -->
+    <form method="post">
+        {% csrf_token %}
+        <table align="center">
+
+            <tr>
+                <td>Title</td>
+                <td><input type="text" required name="txt_title"></td>
+            </tr>
+
+            <tr>
+                <td>Content</td>
+                <td><textarea name="txt_content" required></textarea></td>
+            </tr>
+
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
+
+    <h3 align="center">Complaint List</h3>
+
+    <table align="center">
+
+        <tr>
+            <td>Sl.No</td>
+            <td>Title</td>
+            <td>Content</td>
+            <td>Date</td>
+            <td>Reply</td>
+            <td>Action</td>
+        </tr>
+
+        {% if complaintdata %}
+        {% for i in complaintdata %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.complaint_title}}</td>
+            <td>{{i.complaint_content}}</td>
+            <td>{{i.complaint_date}}</td>
+            <td>
+                {% if i.complaint_reply %}
+                {{i.complaint_reply}}
+                {% else %}
+                <span style="color:#999;">No Reply Yet</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'Reporter:delcomplaint' i.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="6" class="empty">No complaints submitted yet.</td>
+        </tr>
+        {% endif %}
+
+    </table>
+
+</div>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Reporter:Complaint' %}";
+</script>
+{% endif %}
+
+{% endblock %}

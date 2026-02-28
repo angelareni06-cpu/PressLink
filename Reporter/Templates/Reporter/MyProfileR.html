@@ -1,0 +1,123 @@
+{% extends 'Reporter/Header.html' %}
+{% block content %}
+
+<style>
+   /* Page Wrapper */
+   .page-wrapper {
+      padding: 40px 0;
+      background: #eef2ff;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+   }
+
+   /* Profile Card */
+   .profile-card {
+      width: 500px;
+      margin: auto;
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+   }
+
+   /* Profile Image Section */
+   .profile-img {
+      text-align: center;
+      padding: 20px;
+      background: #f5f7ff;
+   }
+
+   .profile-img img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 5px solid #dbe2ff;
+      object-fit: cover;
+   }
+
+   /* Table */
+   table {
+      width: 100%;
+      border-collapse: collapse;
+   }
+
+   td {
+      padding: 14px;
+      border-bottom: 1px solid #eee;
+   }
+
+   td:first-child {
+      font-weight: 600;
+      background: #f8f9ff;
+      width: 40%;
+   }
+
+   /* Button Section */
+   .profile-actions {
+      text-align: center;
+      padding: 15px;
+   }
+
+   .profile-actions a {
+      text-decoration: none;
+      color: #1e3a8a;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 8px;
+      transition: 0.3s;
+   }
+
+   .profile-actions a:hover {
+      background: #c7d2fe;
+   }
+
+   /* Responsive */
+   @media(max-width:600px) {
+      .profile-card {
+         width: 95%;
+      }
+   }
+</style>
+
+<div class="page-wrapper">
+
+   <div class="profile-card">
+
+      <div class="profile-img">
+         {% if reporterdata.reporter_photo %}
+         <img src="{{reporterdata.reporter_photo.url}}">
+         {% else %}
+         <img src="https://via.placeholder.com/200">
+         {% endif %}
+      </div>
+
+      <table>
+         <tr>
+            <td>Name</td>
+            <td>{{reporterdata.reporter_name}}</td>
+         </tr>
+         <tr>
+            <td>Email</td>
+            <td>{{reporterdata.reporter_email}}</td>
+         </tr>
+         <tr>
+            <td>Address</td>
+            <td>{{reporterdata.reporter_address}}</td>
+         </tr>
+         <tr>
+            <td>Contact</td>
+            <td>{{reporterdata.reporter_contact}}</td>
+         </tr>
+      </table>
+
+      <div class="profile-actions">
+         <a href="{% url 'Reporter:EditProfile' %}">Edit Profile</a>
+         |
+         <a href="{% url 'Reporter:ChangePassword' %}">Change Password</a>
+      </div>
+
+   </div>
+
+</div>
+
+{% endblock %}

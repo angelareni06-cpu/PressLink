@@ -1,0 +1,90 @@
+{% extends 'User/Header.html' %}
+{% block content %}
+
+<h3 align="center">My Advertisement</h3>
+
+<table border="1" align="center">
+    <tr>
+        <th>Sl.No</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>File</th>
+        <th>Amount</th>
+        <th>Status</th>
+    </tr>
+
+    {% for i in AdvData %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+
+        <td>{{ i.advertisement_title }}</td>
+
+        <td>{{ i.advertisement_content }}</td>
+
+        <td>
+            {% if i.advertisement_file %}
+            <a href="{{ i.advertisement_file.url }}" target="_blank">
+                View File
+            </a>
+            {% else %}
+            No File
+            {% endif %}
+        </td>
+
+        <!-- AMOUNT COLUMN -->
+        <td>
+            {% if i.advertisement_amount %}
+            ₹ {{ i.advertisement_amount }}
+            {% else %}
+            Not Set
+            {% endif %}
+        </td>
+
+        <!-- STATUS COLUMN -->
+        <td>
+
+            {% if i.advertisement_status == 0 %}
+            Waiting for Approval
+
+            {% elif i.advertisement_status == 1 %}
+            Rejected
+
+            {% elif i.advertisement_status == 2 %}
+            Approved - Waiting for Amount
+
+            {% elif i.advertisement_status == 3 %}
+            Amount Added -
+            <a href="{% url 'User:Payment' i.id %}">
+                Pay Now
+            </a>
+
+            {% elif i.advertisement_status == 4 %}
+            Payment Completed - Waiting for Editor
+
+            {% elif i.advertisement_status == 5 %}
+            Edited - Waiting for Publish
+
+            {% elif i.advertisement_status == 6 %}
+            Published Successfully
+
+            {% endif %}
+
+        </td>
+    </tr>
+
+    {% empty %}
+    <tr>
+        <td colspan="6" align="center">No Advertisements Found</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% if msg %}
+<script>
+    alert("{{ msg }}");
+    window.location = "{% url 'User:MyAdvertisement' %}";
+</script>
+{% endif %}
+
+{% endblock %}

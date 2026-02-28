@@ -1,0 +1,135 @@
+{% extends 'Editor/Header.html' %}
+{% block content %}
+
+<style>
+    .page-wrapper {
+        min-height: 100vh;
+        padding-top: 60px;
+        font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #5ca3e1, #d1f5ea);
+    }
+
+    /* card design */
+    .profile-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
+        border-left: 6px solid #8ee0c1;
+
+        max-width: 550px;
+        width: 90%;
+        margin: auto;
+
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    /* animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    /* text */
+    td {
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    /* label */
+    td:first-child {
+        color: #5aa7d6;
+        font-weight: 600;
+        width: 35%;
+    }
+
+    /* profile image */
+    img {
+        border-radius: 50%;
+        border: 5px solid #bde3ff;
+        padding: 5px;
+        background: #e6faf3;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        object-fit: cover;
+    }
+
+    /* links */
+    a {
+        text-decoration: none;
+        color: #5aa7d6;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 10px;
+        transition: 0.3s;
+    }
+
+    /* hover */
+    a:hover {
+        color: #4cd3a8;
+        text-decoration: underline;
+    }
+</style>
+
+
+<div class="page-wrapper">
+
+    <div class="profile-card">
+
+        <table align="center">
+
+            <tr>
+                <td colspan="2" align="center">
+
+                    {% if editordata.editor_photo %}
+                    <img src="{{editordata.editor_photo.url}}" width="250" height="250" alt="editor">
+                    {% else %}
+                    <img src="/static/default.png" width="250" height="250" alt="default">
+                    {% endif %}
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>Name</td>
+                <td>{{editordata.editor_name}}</td>
+            </tr>
+
+            <tr>
+                <td>Email</td>
+                <td>{{editordata.editor_email}}</td>
+            </tr>
+
+            <tr>
+                <td>Contact</td>
+                <td>{{editordata.editor_contact}}</td>
+            </tr>
+
+            <tr>
+                <td colspan="2" align="center">
+
+                    <a href="{% url 'Editor:EditProfile' %}">Edit Profile</a> |
+                    <a href="{% url 'Editor:ChangePassword' %}">Change Password</a>
+
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

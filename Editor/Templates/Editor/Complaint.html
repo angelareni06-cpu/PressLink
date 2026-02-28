@@ -1,0 +1,191 @@
+{% extends 'Editor/Header.html' %}
+{% block content %}
+
+<style>
+    .page-wrapper {
+        min-height: 100vh;
+        padding-top: 40px;
+        font-family: Segoe UI;
+        background-color: #f0f8ff;
+    }
+
+
+    /* Form Design */
+
+    .complaint-form {
+        width: 60%;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+
+    /* Heading */
+
+    h3 {
+        color: #0099cc;
+        margin-top: 30px;
+    }
+
+
+    /* Table */
+
+    table {
+        border-collapse: collapse;
+        background-color: white;
+        margin-top: 20px;
+        width: 90%;
+    }
+
+
+    /* Table Header */
+
+    table tr:first-child {
+        background-color: #d6f5ff;
+        color: #006666;
+        font-weight: bold;
+    }
+
+
+    /* Table Cells */
+
+    td {
+        padding: 12px;
+        border: 1px solid #b3e0ff;
+    }
+
+
+    /* Alternate Row */
+
+    tr:nth-child(even) {
+        background-color: #f2fff2;
+    }
+
+
+    /* Hover */
+
+    tr:hover {
+        background-color: #ccffee;
+        transition: 0.3s;
+    }
+
+
+    /* Input Fields */
+
+    input[type="text"],
+    textarea {
+        width: 95%;
+        padding: 8px;
+        border: 1px solid #b3e0ff;
+        border-radius: 6px;
+        outline: none;
+    }
+
+
+    /* Submit Button */
+
+    input[type="submit"] {
+        background-color: #66cc99;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+
+    /* Submit Hover */
+
+    input[type="submit"]:hover {
+        background-color: #5cd65c;
+    }
+
+
+    /* Delete Button */
+
+    a {
+        text-decoration: none;
+        background-color: #66b3ff;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+
+    a:hover {
+        opacity: 0.85;
+    }
+</style>
+
+
+<div class="page-wrapper">
+
+    <form method="post" class="complaint-form">
+        {% csrf_token %}
+
+        <table align="center">
+
+            <tr>
+                <td>Title</td>
+                <td><input type="text" required name="txt_title"></td>
+            </tr>
+
+            <tr>
+                <td>Content</td>
+                <td><textarea name="txt_content" required></textarea></td>
+            </tr>
+
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+
+
+    <h3 align="center">Complaint List</h3>
+
+    <table align="center">
+
+        <tr>
+            <td>Sl.No</td>
+            <td>Title</td>
+            <td>Content</td>
+            <td>Date</td>
+            <td>Reply</td>
+            <td>Action</td>
+        </tr>
+
+        {% for i in ComplaintData %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.complaint_title}}</td>
+            <td>{{i.complaint_content}}</td>
+            <td>{{i.complaint_date}}</td>
+            <td>{{i.complaint_reply}}</td>
+            <td>
+                <a href="{% url 'Editor:delcomplaint' i.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Editor:Complaint' %}";
+</script>
+{% endif %}
+
+{% endblock %}

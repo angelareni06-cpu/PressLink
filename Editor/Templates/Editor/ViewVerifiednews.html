@@ -1,0 +1,277 @@
+{% extends 'Editor/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewVerifiedNews</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+
+            background: linear-gradient(135deg, #cfe9ff, #d1f5ea);
+        }
+
+
+        /* form spacing */
+        form {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+
+        /* headings */
+        h3 {
+            color: #5aa7d6;
+
+            font-size: 26px;
+
+            margin-top: 30px;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* tables */
+        table {
+            background: white;
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 10px;
+
+            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
+
+            border-collapse: collapse;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* header row */
+        tr:first-child {
+            background: #bde3ff;
+
+            color: #2a6f97;
+
+            font-weight: bold;
+        }
+
+
+        /* cells */
+        td {
+            padding: 12px;
+
+            border-bottom: 1px solid #e0f2ff;
+
+            font-size: 14px;
+
+            text-align: center;
+        }
+
+
+        /* zebra rows */
+        tr:nth-child(even) {
+            background: #f4fbff;
+        }
+
+
+        /* hover */
+        tr:hover {
+            background: #e6faf3;
+        }
+
+
+        /* images */
+        img {
+            border-radius: 6px;
+
+            border: 3px solid #bde3ff;
+
+            padding: 2px;
+
+            background: white;
+        }
+
+
+        /* action links */
+        a {
+            text-decoration: none;
+
+            color: #5aa7d6;
+
+            font-weight: 600;
+
+            margin: 3px;
+
+            display: inline-block;
+        }
+
+
+        /* hover */
+        a:hover {
+            color: #4cd3a8;
+
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <form action="" method="post">
+
+        {%csrf_token %}
+
+
+        <h3 align="center">Reporter News</h3>
+
+
+        <table border="1" align="center">
+
+            <tr>
+
+                <td>Sl.No</td>
+                <td>Title</td>
+                <td>Content</td>
+                <td>Image</td>
+                <td>District</td>
+                <td>Category</td>
+                <td>Subcategory</td>
+                <td>Date</td>
+                <td>Reporter Details</td>
+                <td>Action</td>
+
+            </tr>
+
+
+            {% for i in reporternews %}
+
+            <tr>
+
+                <td>{{forloop.counter}}</td>
+
+                <td>{{i.news_title}}</td>
+
+                <td>{{i.news_content}}</td>
+
+                <td>
+                    <img src="{{i.news_image.url}}" alt="" width="100" height="100">
+                </td>
+
+                <td>{{i.reporter.place.district.district_name}}</td>
+
+                <td>{{i.subcategory.category.category_name}}</td>
+
+                <td>{{i.subcategory.subcategory_name}}</td>
+
+                <td>{{i.news_date}}</td>
+
+                <td>{{i.reporter.reporter_name}}</td>
+
+                <td>
+
+                    <a href="{% url 'Editor:NewsUpdatesR' i.id %}">News Updates</a>
+
+                    <a href="{% url 'Editor:ViewFiles' i.id %}"> View Files</a>
+
+                    <a href="{% url 'Editor:PublishedNews' i.id %}">Publish</a>
+
+                    <a href="{% url 'Editor:chatpager' i.reporter.id %}">Chat</a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+
+        <h3 align="center">Freelancer News</h3>
+
+
+        <table border="1" align="center">
+
+            <tr>
+
+                <td>Sl.No</td>
+                <td>Title</td>
+                <td>Content</td>
+                <td>Image</td>
+                <td>District</td>
+                <td>Category</td>
+                <td>Subcategory</td>
+                <td>Date</td>
+                <td>Freelancer Details</td>
+                <td>Action</td>
+
+            </tr>
+
+
+            {% for i in freelancernews %}
+
+            <tr>
+
+                <td>{{forloop.counter}}</td>
+
+                <td>{{i.news_title}}</td>
+
+                <td>{{i.news_content}}</td>
+
+                <td>
+                    <img src="{{i.news_image.url}}" alt="" width="100" height="100">
+                </td>
+
+                <td>{{i.user.place.district.district_name}}</td>
+
+                <td>{{i.subcategory.category.category_name}}</td>
+
+                <td>{{i.subcategory.subcategory_name}}</td>
+
+                <td>{{i.news_date}}</td>
+
+                <td>{{i.user.user_name}}</td>
+
+                <td>
+
+                    <a href="{% url 'Editor:NewsUpdatesR' i.id %}">News Updates</a>
+
+                    <a href="{% url 'Editor:ViewFiles' i.id %}">View Files</a>
+
+                    <a href="{% url 'Editor:FPublishedNews' i.id %}">Publish</a>
+
+                    <a href="{% url 'Editor:chatpage' i.user.id %}">Chat</a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+    </form>
+
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Editor:ViewVerifiednews' %}";
+</script>
+{% endif %}
+
+{% endblock %}

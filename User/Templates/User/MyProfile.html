@@ -1,0 +1,47 @@
+{% extends 'User/Header.html' %}
+{% block content %}
+
+<h3 align="center">My Profile</h3>
+
+<table border="1" align="center">
+
+    <tr>
+        <td colspan="2" align="center">
+            {% if userdata.user_photo %}
+            <img src="{{ userdata.user_photo.url }}" width="300" height="300" alt="User Photo">
+            {% else %}
+            No Photo Available
+            {% endif %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>Name</td>
+        <td>{{ userdata.user_name }}</td>
+    </tr>
+
+    <tr>
+        <td>Email</td>
+        <td>{{ userdata.user_email }}</td>
+    </tr>
+
+    <tr>
+        <td>Address</td>
+        <td>{{ userdata.user_address }}</td>
+    </tr>
+
+    <tr>
+        <td>Contact</td>
+        <td>{{ userdata.user_contact }}</td>
+    </tr>
+
+    <tr>
+        <td colspan="2" align="center">
+            <a href="{% url 'User:EditProfile' %}">Edit Profile</a> |
+            <a href="{% url 'User:ChangePassword' %}">Change Password</a>
+        </td>
+    </tr>
+
+</table>
+
+{% endblock %}

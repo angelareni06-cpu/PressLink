@@ -1,0 +1,127 @@
+{% extends 'Editor/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewAdvertisement</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Segoe UI;
+            background-color: #f0f8ff;
+        }
+
+
+        /* Form */
+
+        form {
+            width: 85%;
+            margin: auto;
+            margin-top: 40px;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        /* Table */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+
+        /* Header */
+
+        table tr:first-child {
+            background-color: #d6f5ff;
+            color: #006666;
+            font-weight: bold;
+        }
+
+
+        /* Cells */
+
+        td {
+            padding: 12px;
+            border: 1px solid #b3e0ff;
+            text-align: center;
+        }
+
+
+        /* Alternate Row */
+
+        tr:nth-child(even) {
+            background-color: #f2fff2;
+        }
+
+
+        /* Hover */
+
+        tr:hover {
+            background-color: #ccffee;
+            transition: 0.3s;
+        }
+
+
+        /* Publish Button */
+
+        a {
+            text-decoration: none;
+            background-color: #66cc99;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+
+        a:hover {
+            background-color: #4db386;
+        }
+    </style>
+
+</head>
+
+<body>
+    <form action="" method="post">
+        <table border="1" align="center">
+            <tr>
+                <td>Sl.No</td>
+                <td>Title</td>
+                <td>Content</td>
+                <td>File</td>
+                <td>User</td>
+                <td>Action</td>
+            </tr>
+            {% for i in advdata %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.advertisement_title}}</td>
+                <td>{{i.advertisement_content}}</td>
+                <td>{{i.advertisement_file}}</td>
+                <td>{{i.user_id.user_name}}</td>
+                <td><a href="{% url 'Editor:Confirm' i.id %}">Publish</a></td>
+                {% endfor %}
+        </table>
+    </form>
+</body>
+
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Editor:ViewAdvertisement' %}";
+</script>
+{% endif %}
+
+{% endblock %}

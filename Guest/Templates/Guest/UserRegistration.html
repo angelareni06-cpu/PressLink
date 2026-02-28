@@ -1,0 +1,221 @@
+<style>
+    body {
+        margin: 0;
+        padding: 30px;
+        font-family: Segoe UI;
+        background: linear-gradient(to right, #e6f7ff, #ffffff, #e6fff2);
+    }
+
+    form {
+        width: 650px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    td:first-child {
+        font-weight: bold;
+        color: #0099cc;
+        width: 230px;
+        padding: 12px;
+    }
+
+    td:last-child {
+        padding: 12px;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #b3e0ff;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        height: 80px;
+        resize: none;
+    }
+
+    input[type="submit"] {
+        background: linear-gradient(to right, #66ccff, #66cc99);
+        color: white;
+        border: none;
+        padding: 12px 40px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+    }
+</style>
+{% extends 'Guest/Header.html' %}
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <table>
+
+        <tr>
+            <td>Name *</td>
+            <td><input type="text" name="txt_name" required pattern="^[A-Z]+[a-zA-Z ]*$"></td>
+        </tr>
+
+        <tr>
+            <td>Email *</td>
+            <td><input type="email" name="txt_email" required></td>
+        </tr>
+
+        <tr>
+            <td>Contact *</td>
+            <td><input type="text" name="txt_contact" required pattern="[7-9]{1}[0-9]{9}"></td>
+        </tr>
+
+        <tr>
+            <td>Gender</td>
+            <td><input type="radio" required name="txt_gender" value="Male"> Male <input type="radio" name="txt_gender" value="Female"> Female</td>
+        </tr>
+
+        <tr>
+            <td>DOB</td>
+            <td><input type="date" name="txt_dob"></td>
+        </tr>
+
+        <tr>
+            <td>Address *</td>
+            <td><textarea name="txt_address" required></textarea></td>
+        </tr>
+
+        <tr>
+            <td>District *</td>
+            <td>
+                <select name="sel_district" id="sel_district" required>
+                    <option value="">---select---</option>
+                    {% for i in district %}
+                    <option value="{{i.id}}">{{i.district_name}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Place *</td>
+            <td>
+                <select name="sel_place" id="sel_place" required>
+                    <option value="">---select---</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Photo *</td>
+            <td><input type="file" name="file_photo" required></td>
+        </tr>
+
+        <tr>
+            <td>Proof</td>
+            <td><input type="file" name="file_proof"></td>
+        </tr>
+
+        <tr>
+            <td>Previous Work</td>
+            <td><input type="file" name="file_work"></td>
+        </tr>
+
+        <tr>
+            <td>Freelancer Type</td>
+            <td>
+                <select name="sel_freelancertype" id="sel_freelancertype">
+                    <option value="">--select--</option>
+                    {% for i in freelancerdata %}
+                    <option value="{{i.id}}">{{i.freelancer_type}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Skill</td>
+            <td>
+                <select name="sel_skill" id="sel_skill">
+                    <option value="">---select---</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Experience Level</td>
+            <td><input type="text" name="txt_level"></td>
+        </tr>
+
+        <tr>
+            <td>Short Bio</td>
+            <td><input type="text" name="txt_bio"></td>
+        </tr>
+
+        <tr>
+            <td>Social Link</td>
+            <td><input type="text" name="txt_social"></td>
+        </tr>
+
+        <tr>
+            <td>Password *</td>
+            <td><input type="password" name="txt_password" required></td>
+        </tr>
+
+        <tr>
+            <td>Confirm Password *</td>
+            <td><input type="password" name="txt_confirm" required></td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="Submit">
+            </td>
+        </tr>
+
+    </table>
+</form>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Guest:UserRegistration' %}";
+</script>
+{% endif %}
+
+<!-- AJAX -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $("#sel_district").change(function () {
+        $.ajax({
+            url: "{% url 'Guest:ajaxplace' %}",
+            data: { did: $(this).val() },
+            success: function (data) {
+                $("#sel_place").html(data);
+            }
+        });
+    });
+
+    $("#sel_freelancertype").change(function () {
+        $.ajax({
+            url: "{% url 'Guest:ajaxskilltype' %}",
+            data: { fid: $(this).val() },
+            success: function (data) {
+                $("#sel_skill").html(data);
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% for i in data %}
+
+    {% if i.editor_from %}
+        <!-- MESSAGE FROM EDITOR (LEFT SIDE) -->
+
+        {% if i.chat_file %}
+        <div class="par-r-mess">
+            <div class="r-mess">
+                <div class="con-width">
+                    <a href="{{i.chat_file.url}}" target="_blank">
+                        <img src="{{i.chat_file.url}}"
+                             width="250"
+                             height="250"
+                             style="border-radius:5%;">
+                    </a>
+                </div>
+                <div class="r-time">
+                    {{i.chat_time|time}}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="par-r-mess">
+            <div class="r-mess">
+                <div class="con-width">
+                    {{i.chat_content}}
+                </div>
+                <div class="r-time">
+                    {{i.chat_time|time}}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    {% else %}
+        <!-- MESSAGE FROM USER (RIGHT SIDE) -->
+
+        {% if i.chat_file %}
+        <div class="par-s-mess">
+            <div class="s-mess">
+                <div class="con-width">
+                    <a href="{{i.chat_file.url}}" target="_blank">
+                        <img src="{{i.chat_file.url}}"
+                             width="250"
+                             height="250"
+                             style="border-radius:5%;">
+                    </a>
+                </div>
+                <div class="s-time">
+                    {{i.chat_time|time}}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="par-s-mess">
+            <div class="s-mess">
+                <div class="con-width">
+                    {{i.chat_content}}
+                </div>
+                <div class="s-time">
+                    {{i.chat_time|time}}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    {% endif %}
+
+{% endfor %}

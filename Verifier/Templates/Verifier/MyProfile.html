@@ -1,0 +1,42 @@
+{% extends 'Verifier/Header.html' %}
+{% block content %}
+
+<h3 align="center">My Profile</h3>
+
+<table border="1" align="center">
+
+    <tr>
+        <td colspan="2" align="center">
+            {% if verifierData.verifier_photo %}
+            <img src="{{ verifierData.verifier_photo.url }}" width="300" height="300" alt="Verifier Photo">
+            {% else %}
+            No Photo Available
+            {% endif %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>Name</td>
+        <td>{{ verifierData.verifier_name }}</td>
+    </tr>
+
+    <tr>
+        <td>Email</td>
+        <td>{{ verifierData.verifier_email }}</td>
+    </tr>
+
+    <tr>
+        <td>Contact</td>
+        <td>{{ verifierData.verifier_contact }}</td>
+    </tr>
+
+    <tr>
+        <td colspan="2" align="center">
+            <a href="{% url 'Verifier:EditProfile' %}">Edit Profile</a> |
+            <a href="{% url 'Verifier:ChangePassword' %}">Change Password</a>
+        </td>
+    </tr>
+
+</table>
+
+{% endblock %}

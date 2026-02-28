@@ -1,0 +1,110 @@
+{% extends 'User/Header.html' %}
+{% block content %}
+
+<h3 align="center">My News</h3>
+
+<table border="1" align="center">
+    <tr>
+        <th>Sl.No</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Image</th>
+        <th>Category</th>
+        <th>Subcategory</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in newsdata %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+
+        <td>{{ i.news_title }}</td>
+
+        <td>{{ i.news_content }}</td>
+
+        <td>
+            {% if i.news_image %}
+            <img src="{{ i.news_image.url }}" width="100" height="100">
+            {% else %}
+            No Image
+            {% endif %}
+        </td>
+
+        <td>{{ i.subcategory.category.category_name }}</td>
+
+        <td>{{ i.subcategory.subcategory_name }}</td>
+
+        <td>{{ i.news_date }}</td>
+
+        <!-- AMOUNT -->
+        <td>
+            {% if i.news_amount %}
+            ₹ {{ i.news_amount }}
+            {% else %}
+            Not Set
+            {% endif %}
+        </td>
+
+        <!-- STATUS -->
+        <td>
+            {% if i.news_status == 0 %}
+            Waiting for Verification
+            {% elif i.news_status == 1 %}
+            Verified - Waiting for Admin Amount
+            {% elif i.news_status == 2 %}
+            Rejected by Verifier
+            {% elif i.news_status == 3 %}
+            Amount Set - Please Accept or Reject
+            {% elif i.news_status == 4 %}
+            Amount Accepted - Waiting for Admin Payment
+            {% elif i.news_status == 5 %}
+            Amount Rejected
+            {% elif i.news_status == 6 %}
+            Admin Paid - Waiting for Editor
+            {% elif i.news_status == 7 %}
+            Editing by Editor
+            {% elif i.news_status == 8 %}
+            Edited - Please Confirm Edits
+            {% elif i.news_status == 9 %}
+            Edits Confirmed - Waiting for Publish
+            {% elif i.news_status == 10 %}
+            Published Successfully
+            {% endif %}
+        </td>
+
+        <!-- ACTION -->
+        <td>
+            {% if i.news_status == 3 %}
+            <a href="{% url 'User:AcceptAmount' i.id %}">Accept</a> |
+            <a href="{% url 'User:RejectAmount' i.id %}">Reject</a>
+            {% elif i.news_status == 8 %}
+            <a href="{% url 'User:ConfirmEdits' i.id %}">Confirm Edits</a> |
+            <a href="{% url 'User:ViewUpdatesF' i.id %}">View Update Remarks</a>
+            <br>
+            <a href="{% url 'User:EditNews' i.id %}">Edit News Again</a>
+            {% else %}
+            <a href="{% url 'User:chatpage_usertoadmin' %}">Chat With Admin</a>
+            {% endif %}
+        </td>
+
+    </tr>
+
+    {% empty %}
+    <tr>
+        <td colspan="10" align="center">No News Found</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% if msg %}
+<script>
+    alert("{{ msg }}");
+    window.location = "{% url 'User:MyNews' %}";
+</script>
+{% endif %}
+
+{% endblock %}

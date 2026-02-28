@@ -1,0 +1,152 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+
+<h2 align="center">Reporter Verification</h2>
+
+<!-- ================= Pending ================= -->
+
+<h3 align="center">Pending Reporters</h3>
+
+<table border="1" align="center" cellpadding="6">
+
+    <tr>
+        <th>Sl.No</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Contact</th>
+        <th>Gender</th>
+        <th>DOB</th>
+        <th>Address</th>
+        <th>District</th>
+        <th>Place</th>
+        <th>Photo</th>
+        <th>Proof</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in pending %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.reporter_name}}</td>
+        <td>{{i.reporter_email}}</td>
+        <td>{{i.reporter_contact}}</td>
+        <td>{{i.reporter_gender}}</td>
+        <td>{{i.reporter_dob}}</td>
+        <td>{{i.reporter_address}}</td>
+        <td>{{i.place.district.district_name}}</td>
+        <td>{{i.place.place_name}}</td>
+
+        <td>
+            {% if i.reporter_photo %}
+            <img src="{{ i.reporter_photo.url }}" width="80">
+            {% else %}
+            No Photo
+            {% endif %}
+        </td>
+
+        <td>
+            {% if i.reporter_proof %}
+            <img src="{{ i.reporter_proof.url }}" width="80">
+            {% else %}
+            No Proof
+            {% endif %}
+        </td>
+
+        <td>
+            <a href="{% url 'Admin:ReporterAccept' i.id %}">Accept</a> |
+            <a href="{% url 'Admin:ReporterReject' i.id %}">Reject</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="12" align="center">No Pending Reporters</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<br><br>
+
+<!-- ================= Accepted ================= -->
+
+<h3 align="center">Accepted Reporters</h3>
+
+<table border="1" align="center" cellpadding="6">
+
+    <tr>
+        <th>Sl.No</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Contact</th>
+        <th>District</th>
+        <th>Place</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in accept %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.reporter_name}}</td>
+        <td>{{i.reporter_email}}</td>
+        <td>{{i.reporter_contact}}</td>
+        <td>{{i.place.district.district_name}}</td>
+        <td>{{i.place.place_name}}</td>
+        <td>
+            <a href="{% url 'Admin:ReporterReject' i.id %}">Reject</a> | <br>
+            <a href="{% url 'Admin:AddSalary' i.id 'reporter' %}">Add Salary</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="7" align="center">No Accepted Reporters</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<br><br>
+
+<!-- ================= Rejected ================= -->
+
+<h3 align="center">Rejected Reporters</h3>
+
+<table border="1" align="center" cellpadding="6">
+
+    <tr>
+        <th>Sl.No</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Contact</th>
+        <th>District</th>
+        <th>Place</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in reject %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.reporter_name}}</td>
+        <td>{{i.reporter_email}}</td>
+        <td>{{i.reporter_contact}}</td>
+        <td>{{i.place.district.district_name}}</td>
+        <td>{{i.place.place_name}}</td>
+        <td>
+            <a href="{% url 'Admin:ReporterAccept' i.id %}">Accept</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="7" align="center">No Rejected Reporters</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location = "{% url 'Admin:reporterverification' %}";
+</script>
+{% endif %}
+
+{% endblock %}

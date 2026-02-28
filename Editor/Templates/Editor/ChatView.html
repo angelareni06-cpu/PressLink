@@ -1,0 +1,39 @@
+{% for i in data %}
+
+{% if i.editor_from %}
+<!-- EDITOR MESSAGE (RIGHT) -->
+<div class="par-s-mess">
+    <div class="s-mess">
+        {% if i.chat_file %}
+        <a href="{{i.chat_file.url}}" target="_blank">
+            <img src="{{i.chat_file.url}}" width="250">
+        </a>
+        {% else %}
+        {{i.chat_content}}
+        {% endif %}
+        <div class="s-time">
+            {{i.chat_time|time}}
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- USER MESSAGE (LEFT) -->
+<div class="par-r-mess">
+    <div class="r-mess">
+        {% if i.chat_file %}
+        <a href="{{i.chat_file.url}}" target="_blank">
+            <img src="{{i.chat_file.url}}" width="250">
+        </a>
+        {% else %}
+        {{i.chat_content}}
+        {% endif %}
+        <div class="r-time">
+            {{i.chat_time|time}}
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endfor %}
