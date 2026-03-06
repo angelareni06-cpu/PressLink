@@ -58,12 +58,10 @@ def ViewVerifiednews(request):
     if "Eid" in request.session:
         reporternews = tbl_news.objects.filter(
             news_status=1,
-            editor__isnull=True,
             reporter__isnull=False
         )
         freelancernews = tbl_news.objects.filter(
             news_status=6,
-            editor__isnull=True,
             user__isnull=False
         )
         return render(request, 'Editor/ViewVerifiednews.html', {

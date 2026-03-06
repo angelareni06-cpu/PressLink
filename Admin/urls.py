@@ -46,9 +46,11 @@ urlpatterns = [
 
     path("FreelancerType/", views.FreelancerType, name="freelancertype"),
     path("delfreelancer/<int:id>", views.delfreelancer, name="delfreelancer"),
+    path("editfreelancer/<int:id>", views.editfreelancer, name="editfreelancer"),
 
     path("SkillType/", views.SkillType, name="SkillType"),
     path("delskill/<int:id>", views.delskill, name="delskill"),
+    path("editskill/<int:id>", views.editskill, name="editskill"),
 
     path("PublishedNews/", views.PublishedNews, name="PublishedNews"),
     path("FPublishedNews/", views.FPublishedNews, name="FPublishedNews"),

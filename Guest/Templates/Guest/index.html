@@ -167,6 +167,51 @@
     <div class="container py-5">
         <div class="row g-4">  -->
 
+            <style>
+        .hero {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+        .hero img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        .gallery {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .gallery img {
+            width: 250px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Banner Image -->
+    <div class="hero">
+        <img src="{% static 'Main/img/Screenshot (53).png' %}" alt="Newsroom">
+    </div>
+
+    <!-- Journalism Image Section -->
+    <h2 align="center">Latest From Journalism</h2>
+
+    <div class="gallery">
+        <img src="{% static 'Main/img/banner-img.jpg' %}" alt="Reporter">
+        <img src="{% static 'Main/img/news-1.jpg' %}" alt="Breaking News">
+        <img src="{% static 'Main/img/banner-2.jpg' %}" alt="Press Conference">
+    </div>
+
+</body>
+
+
             <div class="container py-5">
     <div class="text-center mb-4">
         <h2>Join With Us</h2>

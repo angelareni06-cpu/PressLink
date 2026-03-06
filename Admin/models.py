@@ -35,6 +35,7 @@ class tbl_editor(models.Model):
     editor_photo=models.FileField(upload_to="Assets/UserDocs/")
     editor_proof=models.FileField(upload_to="Assets/UserDocs/")
     editor_password=models.CharField(max_length=50)
+    editor_status=models.IntegerField(default=0)
     place=models.ForeignKey(tbl_place,on_delete=models.CASCADE)
     
 class tbl_verifier(models.Model):
@@ -44,6 +45,7 @@ class tbl_verifier(models.Model):
     verifier_photo=models.FileField(upload_to="Assets/UserDocs/")
     verifier_proof=models.FileField(upload_to="Assets/UserDocs/")
     verifier_password=models.CharField(max_length=50)
+    verifier_status=models.IntegerField(default=0)
     place=models.ForeignKey(tbl_place,on_delete=models.CASCADE) 
     
 class tbl_plan(models.Model):

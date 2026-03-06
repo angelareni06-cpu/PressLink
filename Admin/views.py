@@ -319,6 +319,15 @@ def FreelancerType(request):
         return render(request, 'Admin/FreelancerType.html', {'freelancer': freelancerdata})
     return redirect("Guest:Login")
 
+def editfreelancer(request, id):
+    editdata = tbl_freelancertype.objects.get(id=id)
+    freelancerdata = tbl_freelancertype.objects.all()
+    if request.method == 'POST':
+        editdata.freelancer_type = request.POST.get("txt_type")
+        editdata.save()
+        return redirect('Admin:freelancertype')
+    return render(request, 'Admin/FreelancerType.html', {'editdata': editdata, 'freelancer': freelancerdata})    
+
 def delfreelancer(request, id):
     if "aid" in request.session:
         tbl_freelancertype.objects.get(id=id).delete()
@@ -336,6 +345,16 @@ def SkillType(request):
             return redirect("Admin:SkillType")
         return render(request, 'Admin/Skill.html', {'freelancer': freelancerdata, 'skilltype': skilldata})
     return redirect("Guest:Login")
+
+def editskill(request, id):
+    freelancerdata = tbl_freelancertype.objects.all()
+    skilldata = tbl_skilltype.objects.get(id=id)
+    if request.method == 'POST':
+        skilldata.skill_type = request.POST.get("txt_skill")
+        skilldata.freelancerdata = tbl_freelancertype.objects.get(id=request.POST.get("sel_freelancertype"))
+        skilldata.save()
+        return redirect("Admin:SkillType")
+    return render(request, 'Admin/Skill.html', {'skilldata': skilldata, 'freelancer': freelancerdata})
 
 def delskill(request, id):
     if "aid" in request.session:
