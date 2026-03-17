@@ -1,38 +1,106 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h3 align="center">Add Advertisement Amount</h3>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f3f4f6;
+    }
 
-<form method="post">
-    {% csrf_token %}
+    .ad-box {
+        width: 400px;
+        margin: 70px auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        border-left: 5px solid #3b82f6;
+    }
 
-    <table border="1" align="center">
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-        <tr>
-            <td>Title</td>
-            <td>{{ advertise.advertisement_title }}</td>
-        </tr>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        <tr>
-            <td>User</td>
-            <td>{{ advertise.user_id.user_name }}</td>
-        </tr>
+    td {
+        padding: 10px;
+        text-align: center;
+    }
 
-        <tr>
-            <td>Amount</td>
-            <td>
-                <input type="number" name="txt_amount" required>
-            </td>
-        </tr>
+    td:first-child {
+        font-weight: bold;
+        color: #555;
+    }
 
-        <tr>
-            <td colspan="2" align="center">
-                <input type="submit" value="Add Amount">
-            </td>
-        </tr>
+    input[type="number"] {
+        width: 90%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
 
-    </table>
+    input[type="number"]:focus {
+        outline: none;
+        border-color: #3b82f6;
+    }
 
-</form>
+    input[type="submit"] {
+        background: #3b82f6;
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background: #2563eb;
+    }
+
+</style>
+
+<div class="ad-box">
+
+    <h3>Add Advertisement Amount</h3>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <table>
+
+            <tr>
+                <td>Title</td>
+                <td>{{ advertise.advertisement_title }}</td>
+            </tr>
+
+            <tr>
+                <td>User</td>
+                <td>{{ advertise.user_id.user_name }}</td>
+            </tr>
+
+            <tr>
+                <td>Amount</td>
+                <td>
+                    <input type="number" name="txt_amount" required>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Add Amount">
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+
+</div>
 
 {% endblock %}
