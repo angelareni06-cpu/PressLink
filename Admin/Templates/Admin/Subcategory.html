@@ -1,3 +1,6 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,50 +8,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subcategory</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .container {
+            width: 60%;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 18px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f0f0f0;
+        }
+
+        select, input[type="text"] {
+            width: 90%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            padding: 8px 18px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background: #555;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 13px;
+            margin: 0 5px;
+        }
+
+        .delete {
+            color: red;
+        }
+
+        .edit {
+            color: green;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .empty {
+            text-align: center;
+            color: #888;
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <form action="" method="post">
-        {%csrf_token %}
-        <table border="1" align="center">
-            <tr>
-                <td>Category</td>
-                <td><select name="sel_category" id="sel_category">
-                        <option value="">---select---</option>
-                        {% for i in category %}
-                        <option {% if i.id == editdata.category.id %} selected {% endif %} value="{{i.id}}">
-                            {{i.category_name}}
-                        </option>
-                        {% endfor %}
-                    </select></td>
-            </tr>
-            <tr>
-                <td>Subcategory</td>
-                <td><input type="text" name="txt_subcategory" id="txt_subcategory"
-                        value="{{editdata.subcategory_name}}"></td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center"><input type="submit" value="submit"></td>
-            </tr>
-        </table>
-    </form>
-    <table border="1" align="center">
-        <tr>
-            <td>Sl.No</td>
-            <td>Category</td>
-            <td>Subcategory</td>
-            <td>Actions</td>
-        </tr>
-        {% for i in subcategory %}
-        <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{i.category.category_name}}</td>
-            <td>{{i.subcategory_name}}</td>
-            <td><a href="{% url 'Admin:delsub' i.id %}">Delete  / <a href="{% url 'Admin:editsub' i.id %}">Edit</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+
+    <h2>Subcategory</h2>
+
+    <div class="container">
+
+        <!-- FORM -->
+        <div class="card">
+            <form action="" method="post">
+                {%csrf_token %}
+                <table>
+                    <tr>
+                        <td>Category</td>
+                        <td>
+                            <select name="sel_category" id="sel_category">
+                                <option value="">---select---</option>
+                                {% for i in category %}
+                                <option {% if i.id == editdata.category.id %} selected {% endif %} value="{{i.id}}">
+                                    {{i.category_name}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Subcategory</td>
+                        <td>
+                            <input type="text" name="txt_subcategory" id="txt_subcategory"
+                                value="{{editdata.subcategory_name}}">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Save">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <!-- TABLE -->
+        <div class="card">
+            <table>
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                    <th>Actions</th>
+                </tr>
+
+                {% for i in subcategory %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.category.category_name}}</td>
+                    <td>{{i.subcategory_name}}</td>
+                    <td>
+                        <a class="delete" href="{% url 'Admin:delsub' i.id %}">Delete</a> /
+                        <a class="edit" href="{% url 'Admin:editsub' i.id %}">Edit</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty">No Subcategories Found</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
 </body>
+
 {% if msg %}
 <script>
     alert("{{msg}}")
@@ -57,3 +178,5 @@
 {% endif %}
 
 </html>
+
+{% endblock %}

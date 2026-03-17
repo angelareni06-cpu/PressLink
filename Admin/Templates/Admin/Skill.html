@@ -1,72 +1,164 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h3 align="center">Skill Management</h3>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
 
-<form action="" method="post">
-    {% csrf_token %}
+    .container {
+        width: 65%;
+        margin: auto;
+        margin-top: 25px;
+    }
 
-    <table border="1" align="center">
+    h3 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
 
-        <tr>
-            <td>Freelancer Type</td>
-            <td>
-                <select name="sel_freelancertype" required>
-                    <option value="">--select--</option>
-                    {% for i in freelancer %}
-                    <option value="{{i.id}}">
-                        {{i.freelancer_type}}
-                    </option>
-                    {% endfor %}
-                </select>
-            </td>
-        </tr>
+    .card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
 
-        <tr>
-            <td>Skill</td>
-            <td>
-                <input type="text" name="txt_skill" required
-                value="{{ skilldata.skill_type|default:'' }}">
-            </td>
-        </tr>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        <tr>
-            <td colspan="2" align="center">
-                <input type="submit" value="Submit">
-            </td>
-        </tr>
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
 
-    </table>
+    th {
+        background: #f0f0f0;
+    }
 
-</form>
+    tr:hover {
+        background: #fafafa;
+    }
 
-<br><br>
+    select, input[type="text"] {
+        width: 90%;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
-<table border="1" align="center">
+    input[type="submit"] {
+        padding: 8px 18px;
+        background: #2c3e50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Freelancer Type</th>
-        <th>Skill Type</th>
-        <th>Action</th>
-    </tr>
+    input[type="submit"]:hover {
+        background: #1a252f;
+    }
 
-    {% for i in skilltype %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.freelancer_type.freelancer_type}}</td>
-        <td>{{i.skill_type}}</td>
-        <td>
-            <a href="{% url 'Admin:delskill' i.id %}">Delete  /  <a href="{% url 'Admin:editskill' i.id %}">Edit</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="4" align="center">No Skills Added</td>
-    </tr>
-    {% endfor %}
+    a {
+        text-decoration: none;
+        font-size: 13px;
+        margin: 0 5px;
+    }
 
-</table>
+    .delete {
+        color: red;
+    }
+
+    .edit {
+        color: green;
+    }
+
+    .empty {
+        text-align: center;
+        color: #888;
+        padding: 12px;
+    }
+</style>
+
+<div class="container">
+
+    <h3>Skill Management</h3>
+
+    <!-- FORM -->
+    <div class="card">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <table>
+                <tr>
+                    <td>Freelancer Type</td>
+                    <td>
+                        <select name="sel_freelancertype" required>
+                            <option value="">--select--</option>
+                            {% for i in freelancer %}
+                            <option value="{{i.id}}">
+                                {{i.freelancer_type}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Skill</td>
+                    <td>
+                        <input type="text" name="txt_skill" required
+                        value="{{ skilldata.skill_type|default:'' }}">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Save Skill">
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+        <table>
+            <tr>
+                <th>Sl.No</th>
+                <th>Freelancer Type</th>
+                <th>Skill Type</th>
+                <th>Action</th>
+            </tr>
+
+            {% for i in skilltype %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.freelancer_type.freelancer_type}}</td>
+                <td>{{i.skill_type}}</td>
+                <td>
+                    <a class="delete" href="{% url 'Admin:delskill' i.id %}">Delete</a> /
+                    <a class="edit" href="{% url 'Admin:editskill' i.id %}">Edit</a>
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="4" class="empty">No Skills Added</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
 
 {% if msg %}
 <script>

@@ -1,45 +1,113 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h3 align="center">Reply to Complaint</h3>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
 
-<table border="1" align="center" cellpadding="6">
+    .container {
+        width: 55%;
+        margin: auto;
+        margin-top: 30px;
+    }
 
-    <tr>
-        <td><strong>Title</strong></td>
-        <td>{{ complaintdata.complaint_title }}</td>
-    </tr>
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-    <tr>
-        <td><strong>Content</strong></td>
-        <td>{{ complaintdata.complaint_content }}</td>
-    </tr>
+    .card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
 
-</table>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-<br>
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+    }
 
-<form action="" method="post">
-    {% csrf_token %}
+    td strong {
+        color: #555;
+    }
 
-    <table border="1" align="center">
+    textarea {
+        width: 95%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: none;
+    }
 
-        <tr>
-            <td>Reply</td>
-            <td>
-                <textarea name="txt_reply" id="txt_reply" rows="4" cols="40" required></textarea>
-            </td>
-        </tr>
+    input[type="submit"] {
+        padding: 8px 18px;
+        background: #2c3e50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
-        <tr>
-            <td colspan="2" align="center">
-                <input type="submit" value="Submit">
-            </td>
-        </tr>
+    input[type="submit"]:hover {
+        background: #1a242f;
+    }
 
-    </table>
+</style>
 
-</form>
+<div class="container">
+
+    <h3>Reply to Complaint</h3>
+
+    <!-- Complaint Details -->
+    <div class="card">
+        <table>
+            <tr>
+                <td><strong>Title</strong></td>
+                <td>{{ complaintdata.complaint_title }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>Content</strong></td>
+                <td>{{ complaintdata.complaint_content }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Reply Form -->
+    <div class="card">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <table>
+                <tr>
+                    <td><strong>Reply</strong></td>
+                    <td>
+                        <textarea name="txt_reply" id="txt_reply" rows="4" required></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align:center;">
+                        <input type="submit" value="Submit Reply">
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+
+</div>
 
 {% if msg %}
 <script>

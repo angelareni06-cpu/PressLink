@@ -1,90 +1,173 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h3 align="center">Reporter Published News</h3>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+    }
 
-<table border="1" align="center" cellpadding="8">
+    .container {
+        width: 90%;
+        margin: auto;
+        margin-top: 25px;
+    }
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Image</th>
-        <th>Category</th>
-        <th>Subcategory</th>
-        <th>Date</th>
-        <th>Reporter</th>
-        <th>Action</th>
-    </tr>
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-    {% for i in NewsData %}
-    <tr>
-        <td>{{forloop.counter}}</td>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
 
-        <td>
-            {{i.news_title}}
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
 
-            {% if i.breaking == 1 %}
-            <span style="color:red;font-weight:bold;">
-                🚨 BREAKING
-            </span>
-            {% endif %}
-        </td>
+    th {
+        background: #f0f0f0;
+        font-weight: 600;
+    }
 
-        <td>{{i.news_content}}</td>
+    tr:hover {
+        background: #fafafa;
+    }
 
-        <td>
-            {% if i.news_image %}
-            <img src="{{i.news_image.url}}" width="80" height="80">
-            {% else %}
-            No Image
-            {% endif %}
-        </td>
+    img {
+        border-radius: 4px;
+    }
 
-        <td>{{i.subcategory.category.category_name}}</td>
+    a {
+        text-decoration: none;
+        color: #007bff;
+        font-size: 14px;
+    }
 
-        <td>{{i.subcategory.subcategory_name}}</td>
+    a:hover {
+        text-decoration: underline;
+    }
 
-        <td>{{i.news_date}}</td>
+    .status {
+        font-size: 13px;
+        color: #555;
+    }
 
-        <td>{{i.reporter.reporter_name}}</td>
+    .breaking {
+        color: red;
+        font-weight: bold;
+        margin-left: 5px;
+    }
 
-        <td>
-            <a href="{% url 'Admin:ViewFiles' i.id %}">View Files</a><br>
-            {% if i.news_status == 1 %}
-            Verified (Pending Editor)
-            {% elif i.news_status == 2 %}
-            Rejected by Verifier
-            {% elif i.news_status == 3 %}
-            Amount set (should be for freelancer path)
-            {% elif i.news_status == 4 %}
-            Amount accepted by user
-            {% elif i.news_status == 5 %}
-            Amount rejected by user
-            {% elif i.news_status == 6 %}
-            Admin paid - waiting editor
-            {% elif i.news_status == 7 %}
-            Editing by Editor
-            {% elif i.news_status == 8 %}
-            Waiting Reports/User confirm edit
-            {% elif i.news_status == 9 %}
-            <a href="{% url 'Admin:PublishNews' i.id %}">Publish News</a>
-            {% elif i.news_status == 10 %}
-            Published
-            {% else %}
-            Status {{ i.news_status }}
-            {% endif %}
-        </td>
+    .empty {
+        text-align: center;
+        color: #888;
+        padding: 15px;
+    }
+</style>
 
-    </tr>
+<div class="container">
 
-    {% empty %}
-    <tr>
-        <td colspan="9" align="center">No Published News Found</td>
-    </tr>
-    {% endfor %}
+    <h3>Reporter Published News</h3>
 
-</table>
+    <table>
+        <tr>
+            <th>Sl.No</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Image</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Date</th>
+            <th>Reporter</th>
+            <th>Action / Status</th>
+        </tr>
+
+        {% for i in NewsData %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+
+            <td>
+                {{i.news_title}}
+                {% if i.breaking == 1 %}
+                <span class="breaking">🚨 BREAKING</span>
+                {% endif %}
+            </td>
+
+            <td>{{i.news_content}}</td>
+
+            <td>
+                {% if i.news_image %}
+                <img src="{{i.news_image.url}}" width="70" height="70">
+                {% else %}
+                No Image
+                {% endif %}
+            </td>
+
+            <td>{{i.subcategory.category.category_name}}</td>
+
+            <td>{{i.subcategory.subcategory_name}}</td>
+
+            <td>{{i.news_date}}</td>
+
+            <td>{{i.reporter.reporter_name}}</td>
+
+            <td class="status">
+                <a href="{% url 'Admin:ViewFiles' i.id %}">View Files</a><br>
+
+                {% if i.news_status == 1 %}
+                Verified (Pending Editor)
+
+                {% elif i.news_status == 2 %}
+                Rejected by Verifier
+
+                {% elif i.news_status == 3 %}
+                Amount Set
+
+                {% elif i.news_status == 4 %}
+                Amount Accepted
+
+                {% elif i.news_status == 5 %}
+                Amount Rejected
+
+                {% elif i.news_status == 6 %}
+                Admin Paid - Waiting Editor
+
+                {% elif i.news_status == 7 %}
+                Editing by Editor
+
+                {% elif i.news_status == 8 %}
+                Waiting for Confirmation
+
+                {% elif i.news_status == 9 %}
+                <a href="{% url 'Admin:PublishNews' i.id %}">Publish News</a>
+
+                {% elif i.news_status == 10 %}
+                Published
+
+                {% else %}
+                Status {{ i.news_status }}
+                {% endif %}
+            </td>
+
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="9" class="empty">No Published News Found</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
 
 {% if msg %}
 <script>

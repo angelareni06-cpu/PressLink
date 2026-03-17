@@ -1,91 +1,180 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h2 align="center">User Management</h2>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+    }
 
-<table border="1" align="center" height="100" width="100">
+    .container {
+        width: 95%;
+        margin: auto;
+        margin-top: 20px;
+    }
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Contact</th>
-        <th>Gender</th>
-        <th>DOB</th>
-        <th>Address</th>
-        <th>District</th>
-        <th>Place</th>
-        <th>Photo</th>
-        <th>Proof</th>
-        <th>Previous Work</th>
-        <th>Freelancer Type</th>
-        <th>Skill</th>
-        <th>Experience Level</th>
-        <th>Short Bio</th>
-        <th>Social Link</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 15px;
+    }
 
-    {% for i in users %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.user_name}}</td>
-        <td>{{i.user_email}}</td>
-        <td>{{i.user_contact}}</td>
-        <td>{{i.user_gender}}</td>
-        <td>{{i.user_dob}}</td>
-        <td>{{i.user_address}}</td>
-        <td>{{i.place.district.district_name}}</td>
-        <td>{{i.place.place_name}}</td>
+    .table-container {
+        background: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        overflow-x: auto;
+    }
 
-        <td>
-            {% if i.user_photo %}
-            <img src="{{ i.user_photo.url }}" width="80">
-            {% endif %}
-        </td>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1400px; /* keeps layout proper */
+    }
 
-        <td>
-            {% if i.user_proof %}
-            <img src="{{ i.user_proof.url }}" width="80">
-            {% endif %}
-        </td>
+    th, td {
+        padding: 8px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        font-size: 13px;
+    }
 
-        <td>
-            {% if i.user_work %}
-            <img src="{{ i.user_work.url }}" width="80">
-            {% endif %}
-        </td>
+    th {
+        background: #f0f0f0;
+        font-weight: 600;
+    }
 
-        <td>{{i.skill_type.freelancer_type.freelancer_type}}</td>
-        <td>{{i.skill_type.skill_type}}</td>
-        <td>{{i.user_level}}</td>
-        <td>{{i.user_bio}}</td>
-        <td>{{i.user_social}}</td>
+    tr:hover {
+        background: #fafafa;
+    }
 
-        <td>
-            {% if i.user_status == 1 %}
-            Active
-            {% else %}
-            Blocked
-            {% endif %}
-        </td>
+    img {
+        border-radius: 4px;
+    }
 
-        <td>
-            {% if i.user_status == 1 %}
-            <a href="{% url 'Admin:BlockUser' i.id %}">Block</a>
-            {% else %}
-            <a href="{% url 'Admin:UnblockUser' i.id %}">Unblock</a>
-            {% endif %}
-        </td>
+    .status-active {
+        color: green;
+        font-weight: bold;
+    }
 
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="19" align="center">No Users Found</td>
-    </tr>
-    {% endfor %}
+    .status-blocked {
+        color: red;
+        font-weight: bold;
+    }
 
-</table>
+    a {
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .block {
+        color: red;
+    }
+
+    .unblock {
+        color: green;
+    }
+
+    .empty {
+        text-align: center;
+        color: #888;
+        padding: 12px;
+    }
+</style>
+
+<div class="container">
+
+    <h2>User Management</h2>
+
+    <div class="table-container">
+        <table>
+
+            <tr>
+                <th>Sl.No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Gender</th>
+                <th>DOB</th>
+                <th>Address</th>
+                <th>District</th>
+                <th>Place</th>
+                <th>Photo</th>
+                <th>Proof</th>
+                <th>Work</th>
+                <th>Freelancer Type</th>
+                <th>Skill</th>
+                <th>Level</th>
+                <th>Bio</th>
+                <th>Social</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            {% for i in users %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.user_name}}</td>
+                <td>{{i.user_email}}</td>
+                <td>{{i.user_contact}}</td>
+                <td>{{i.user_gender}}</td>
+                <td>{{i.user_dob}}</td>
+                <td>{{i.user_address}}</td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+
+                <td>
+                    {% if i.user_photo %}
+                    <img src="{{ i.user_photo.url }}" width="60">
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if i.user_proof %}
+                    <img src="{{ i.user_proof.url }}" width="60">
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if i.user_work %}
+                    <img src="{{ i.user_work.url }}" width="60">
+                    {% endif %}
+                </td>
+
+                <td>{{i.skill_type.freelancer_type.freelancer_type}}</td>
+                <td>{{i.skill_type.skill_type}}</td>
+                <td>{{i.user_level}}</td>
+                <td>{{i.user_bio}}</td>
+                <td>{{i.user_social}}</td>
+
+                <td>
+                    {% if i.user_status == 1 %}
+                    <span class="status-active">Active</span>
+                    {% else %}
+                    <span class="status-blocked">Blocked</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if i.user_status == 1 %}
+                    <a class="block" href="{% url 'Admin:BlockUser' i.id %}">Block</a>
+                    {% else %}
+                    <a class="unblock" href="{% url 'Admin:UnblockUser' i.id %}">Unblock</a>
+                    {% endif %}
+                </td>
+
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="19" class="empty">No Users Found</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+</div>
 
 {% endblock %}

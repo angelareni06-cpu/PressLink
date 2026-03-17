@@ -1,137 +1,236 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h2 align="center">Verifier Registration</h2>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+    }
 
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+    .container {
+        width: 70%;
+        margin: auto;
+        margin-top: 25px;
+    }
 
-    <table border="1" align="center" cellpadding="6">
+    h2, h3 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 15px;
+    }
 
-        <tr>
-            <td>Name</td>
-            <td>
-                <input type="text" required name="txt_name" pattern="^[A-Z]+[a-zA-Z ]*$"
-                    title="First letter must be capital and only alphabets allowed">
-            </td>
-        </tr>
+    .card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
 
-        <tr>
-            <td>Email</td>
-            <td>
-                <input type="email" required name="txt_email">
-            </td>
-        </tr>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        <tr>
-            <td>Contact</td>
-            <td>
-                <input type="text" required name="txt_contact" pattern="[7-9]{1}[0-9]{9}"
-                    title="Phone number must start with 7-9 and contain 10 digits">
-            </td>
-        </tr>
+    td, th {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
 
-        <tr>
-            <td>District</td>
-            <td>
-                <select name="sel_district" id="sel_district" required>
-                    <option value="">---select---</option>
-                    {% for i in district %}
-                    <option value="{{i.id}}">{{i.district_name}}</option>
-                    {% endfor %}
-                </select>
-            </td>
-        </tr>
+    th {
+        background: #f0f0f0;
+        font-weight: 600;
+    }
 
-        <tr>
-            <td>Place</td>
-            <td>
-                <select name="sel_place" id="sel_place" required>
-                    <option value="">---select---</option>
-                </select>
-            </td>
-        </tr>
+    tr:hover {
+        background: #fafafa;
+    }
 
-        <tr>
-            <td>Photo</td>
-            <td><input type="file" required name="file_photo"></td>
-        </tr>
+    input, select {
+        width: 90%;
+        padding: 7px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
-        <tr>
-            <td>Proof</td>
-            <td><input type="file" required name="file_proof"></td>
-        </tr>
+    input[type="file"] {
+        border: none;
+    }
 
-        <tr>
-            <td>Password</td>
-            <td>
-                <input type="password" required name="txt_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    title="Must contain number, uppercase, lowercase and 8+ characters">
-            </td>
-        </tr>
+    input[type="submit"] {
+        padding: 8px 18px;
+        background: #2c3e50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
-        <tr>
-            <td colspan="2" align="center">
-                <input type="submit" value="Submit">
-            </td>
-        </tr>
+    input[type="submit"]:hover {
+        background: #1a252f;
+    }
 
-    </table>
-</form>
+    img {
+        border-radius: 4px;
+    }
 
-<br><br>
+    a {
+        text-decoration: none;
+        font-size: 13px;
+    }
 
-<!-- ================= VERIFIER LIST ================= -->
+    .delete {
+        color: red;
+    }
 
-<h3 align="center">Registered Verifiers</h3>
+    .salary {
+        color: green;
+    }
 
-<table border="1" align="center" cellpadding="6">
+    .empty {
+        text-align: center;
+        color: #888;
+        padding: 12px;
+    }
+</style>
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Contact</th>
-        <th>District</th>
-        <th>Place</th>
-        <th>Photo</th>
-        <th>Proof</th>
-        <th>Action</th>
-    </tr>
+<div class="container">
 
-    {% for i in verifierData %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.verifier_name}}</td>
-        <td>{{i.verifier_email}}</td>
-        <td>{{i.verifier_contact}}</td>
-        <td>{{i.place.district.district_name}}</td>
-        <td>{{i.place.place_name}}</td>
+    <h2>Verifier Registration</h2>
 
-        <td>
-            {% if i.verifier_photo %}
-            <img src="{{ i.verifier_photo.url }}" width="80">
-            {% endif %}
-        </td>
+    <!-- FORM -->
+    <div class="card">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
 
-        <td>
-            {% if i.verifier_proof %}
-            <img src="{{ i.verifier_proof.url }}" width="80">
-            {% endif %}
-        </td>
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td>
+                        <input type="text" required name="txt_name"
+                            pattern="^[A-Z]+[a-zA-Z ]*$"
+                            title="First letter must be capital and only alphabets allowed">
+                    </td>
+                </tr>
 
-        <td>
-            <a href="{% url 'Admin:delverifier' i.id %}">Delete</a> | <br>
-            <a href="{% url 'Admin:AddSalary' i.id 'verifier' %}">Add Salary</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="9" align="center">No Verifiers Found</td>
-    </tr>
-    {% endfor %}
+                <tr>
+                    <td>Email</td>
+                    <td><input type="email" required name="txt_email"></td>
+                </tr>
 
-</table>
+                <tr>
+                    <td>Contact</td>
+                    <td>
+                        <input type="text" required name="txt_contact"
+                            pattern="[7-9]{1}[0-9]{9}"
+                            title="Phone number must start with 7-9 and contain 10 digits">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>District</td>
+                    <td>
+                        <select name="sel_district" id="sel_district" required>
+                            <option value="">---select---</option>
+                            {% for i in district %}
+                            <option value="{{i.id}}">{{i.district_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Place</td>
+                    <td>
+                        <select name="sel_place" id="sel_place" required>
+                            <option value="">---select---</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Photo</td>
+                    <td><input type="file" required name="file_photo"></td>
+                </tr>
+
+                <tr>
+                    <td>Proof</td>
+                    <td><input type="file" required name="file_proof"></td>
+                </tr>
+
+                <tr>
+                    <td>Password</td>
+                    <td>
+                        <input type="password" required name="txt_password"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            title="Must contain number, uppercase, lowercase and 8+ characters">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Register">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+        <h3>Registered Verifiers</h3>
+
+        <table>
+            <tr>
+                <th>Sl.No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>District</th>
+                <th>Place</th>
+                <th>Photo</th>
+                <th>Proof</th>
+                <th>Action</th>
+            </tr>
+
+            {% for i in verifierData %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.verifier_name}}</td>
+                <td>{{i.verifier_email}}</td>
+                <td>{{i.verifier_contact}}</td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+
+                <td>
+                    {% if i.verifier_photo %}
+                    <img src="{{ i.verifier_photo.url }}" width="60">
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if i.verifier_proof %}
+                    <img src="{{ i.verifier_proof.url }}" width="60">
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a class="delete" href="{% url 'Admin:delverifier' i.id %}">Delete</a><br>
+                    <a class="salary" href="{% url 'Admin:AddSalary' i.id 'verifier' %}">Add Salary</a>
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="9" class="empty">No Verifiers Found</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
 
 {% if msg %}
 <script>
@@ -140,8 +239,7 @@
 </script>
 {% endif %}
 
-<!-- ================= AJAX PLACE SCRIPT ================= -->
-
+<!-- AJAX -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     $("#sel_district").change(function () {

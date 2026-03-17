@@ -1,146 +1,223 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h2 align="center">Reporter Verification</h2>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+    }
 
-<!-- ================= Pending ================= -->
+    .container {
+        width: 95%;
+        margin: auto;
+        margin-top: 20px;
+    }
 
-<h3 align="center">Pending Reporters</h3>
+    h2, h3 {
+        text-align: center;
+        color: #333;
+    }
 
-<table border="1" align="center" cellpadding="6">
+    .card {
+        background: #fff;
+        padding: 15px;
+        margin-bottom: 25px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Contact</th>
-        <th>Gender</th>
-        <th>DOB</th>
-        <th>Address</th>
-        <th>District</th>
-        <th>Place</th>
-        <th>Photo</th>
-        <th>Proof</th>
-        <th>Action</th>
-    </tr>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-    {% for i in pending %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.reporter_name}}</td>
-        <td>{{i.reporter_email}}</td>
-        <td>{{i.reporter_contact}}</td>
-        <td>{{i.reporter_gender}}</td>
-        <td>{{i.reporter_dob}}</td>
-        <td>{{i.reporter_address}}</td>
-        <td>{{i.place.district.district_name}}</td>
-        <td>{{i.place.place_name}}</td>
+    th, td {
+        padding: 8px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
 
-        <td>
-            {% if i.reporter_photo %}
-            <img src="{{ i.reporter_photo.url }}" width="80">
-            {% else %}
-            No Photo
-            {% endif %}
-        </td>
+    th {
+        background: #f0f0f0;
+    }
 
-        <td>
-            {% if i.reporter_proof %}
-            <img src="{{ i.reporter_proof.url }}" width="80">
-            {% else %}
-            No Proof
-            {% endif %}
-        </td>
+    tr:hover {
+        background: #fafafa;
+    }
 
-        <td>
-            <a href="{% url 'Admin:ReporterAccept' i.id %}">Accept</a> |
-            <a href="{% url 'Admin:ReporterReject' i.id %}">Reject</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="12" align="center">No Pending Reporters</td>
-    </tr>
-    {% endfor %}
+    img {
+        border-radius: 4px;
+    }
 
-</table>
+    a {
+        text-decoration: none;
+        font-size: 13px;
+        margin: 2px;
+    }
 
-<br><br>
+    .accept {
+        color: green;
+    }
 
-<!-- ================= Accepted ================= -->
+    .reject {
+        color: red;
+    }
 
-<h3 align="center">Accepted Reporters</h3>
+    .action a {
+        display: inline-block;
+        margin: 2px 0;
+    }
 
-<table border="1" align="center" cellpadding="6">
+    .empty {
+        text-align: center;
+        color: #888;
+        padding: 10px;
+    }
+</style>
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Contact</th>
-        <th>District</th>
-        <th>Place</th>
-        <th>Action</th>
-    </tr>
+<div class="container">
 
-    {% for i in accept %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.reporter_name}}</td>
-        <td>{{i.reporter_email}}</td>
-        <td>{{i.reporter_contact}}</td>
-        <td>{{i.place.district.district_name}}</td>
-        <td>{{i.place.place_name}}</td>
-        <td>
-            <a href="{% url 'Admin:ReporterReject' i.id %}">Reject</a> | <br>
-            <a href="{% url 'Admin:AddSalary' i.id 'reporter' %}">Add Salary</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="7" align="center">No Accepted Reporters</td>
-    </tr>
-    {% endfor %}
+    <h2>Reporter Verification</h2>
 
-</table>
+    <!-- ================= Pending ================= -->
+    <div class="card">
+        <h3>Pending Reporters</h3>
 
-<br><br>
+        <table>
+            <tr>
+                <th>Sl.No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Gender</th>
+                <th>DOB</th>
+                <th>Address</th>
+                <th>District</th>
+                <th>Place</th>
+                <th>Photo</th>
+                <th>Proof</th>
+                <th>Action</th>
+            </tr>
 
-<!-- ================= Rejected ================= -->
+            {% for i in pending %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.reporter_name}}</td>
+                <td>{{i.reporter_email}}</td>
+                <td>{{i.reporter_contact}}</td>
+                <td>{{i.reporter_gender}}</td>
+                <td>{{i.reporter_dob}}</td>
+                <td>{{i.reporter_address}}</td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
 
-<h3 align="center">Rejected Reporters</h3>
+                <td>
+                    {% if i.reporter_photo %}
+                    <img src="{{ i.reporter_photo.url }}" width="70">
+                    {% else %}
+                    No Photo
+                    {% endif %}
+                </td>
 
-<table border="1" align="center" cellpadding="6">
+                <td>
+                    {% if i.reporter_proof %}
+                    <img src="{{ i.reporter_proof.url }}" width="70">
+                    {% else %}
+                    No Proof
+                    {% endif %}
+                </td>
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Contact</th>
-        <th>District</th>
-        <th>Place</th>
-        <th>Action</th>
-    </tr>
+                <td class="action">
+                    <a class="accept" href="{% url 'Admin:ReporterAccept' i.id %}">Accept</a>
+                    <a class="reject" href="{% url 'Admin:ReporterReject' i.id %}">Reject</a>
+                </td>
+            </tr>
 
-    {% for i in reject %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.reporter_name}}</td>
-        <td>{{i.reporter_email}}</td>
-        <td>{{i.reporter_contact}}</td>
-        <td>{{i.place.district.district_name}}</td>
-        <td>{{i.place.place_name}}</td>
-        <td>
-            <a href="{% url 'Admin:ReporterAccept' i.id %}">Accept</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="7" align="center">No Rejected Reporters</td>
-    </tr>
-    {% endfor %}
+            {% empty %}
+            <tr>
+                <td colspan="12" class="empty">No Pending Reporters</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 
-</table>
+    <!-- ================= Accepted ================= -->
+    <div class="card">
+        <h3>Accepted Reporters</h3>
+
+        <table>
+            <tr>
+                <th>Sl.No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>District</th>
+                <th>Place</th>
+                <th>Action</th>
+            </tr>
+
+            {% for i in accept %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.reporter_name}}</td>
+                <td>{{i.reporter_email}}</td>
+                <td>{{i.reporter_contact}}</td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+
+                <td class="action">
+                    <a class="reject" href="{% url 'Admin:ReporterReject' i.id %}">Reject</a><br>
+                    <a href="{% url 'Admin:AddSalary' i.id 'reporter' %}">Add Salary</a>
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="7" class="empty">No Accepted Reporters</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- ================= Rejected ================= -->
+    <div class="card">
+        <h3>Rejected Reporters</h3>
+
+        <table>
+            <tr>
+                <th>Sl.No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>District</th>
+                <th>Place</th>
+                <th>Action</th>
+            </tr>
+
+            {% for i in reject %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.reporter_name}}</td>
+                <td>{{i.reporter_email}}</td>
+                <td>{{i.reporter_contact}}</td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+
+                <td>
+                    <a class="accept" href="{% url 'Admin:ReporterAccept' i.id %}">Accept</a>
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="7" class="empty">No Rejected Reporters</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
 
 {% if msg %}
 <script>
