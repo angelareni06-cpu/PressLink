@@ -59,15 +59,27 @@
             <a href="{% url 'Verifier:ViewRReject' i.id %}">Reject</a>
 
             {% elif i.news_status == 1 %}
-            Verified |
-            <a href="{% url 'Verifier:ViewRReject' i.id %}">Reject</a>
-
+            Verified - Waiting for Admin
             {% elif i.news_status == 2 %}
-            Rejected |
-            <a href="{% url 'Verifier:ViewRAccept' i.id %}">Accept</a>
-
+            Rejected
+            {% elif i.news_status == 3 %}
+            Amount set - waiting user
+            {% elif i.news_status == 4 %}
+            User accepted amount
+            {% elif i.news_status == 5 %}
+            User rejected amount
+            {% elif i.news_status == 6 %}
+            Admin paid - waiting editor
+            {% elif i.news_status == 7 %}
+            Editing by editor
+            {% elif i.news_status == 8 %}
+            Edited - waiting confirmation
+            {% elif i.news_status == 9 %}
+            Confirmed - waiting publish
+            {% elif i.news_status == 10 %}
+            Published
             {% else %}
-            Forwarded to Admin
+            Status {{ i.news_status }}
             {% endif %}
 
         </td>

@@ -9,15 +9,18 @@ urlpatterns = [
     path('ChangePassword/',views.ChangePassword,name="ChangePassword"),
 
     path('ViewVerifiednews/',views.ViewVerifiednews,name="ViewVerifiednews"),
+    path('MyTakenNews/',views.MyTakenNews,name="MyTakenNews"),
+    path('TakeNews/<int:nid>',views.TakeNews,name="TakeNews"),
     path('PublishedNews/<int:pid>',views.PublishedNews,name="PublishedNews"),
     path('FPublishedNews/<int:fid>',views.FPublishedNews,name="FPublishedNews"),
 
     path('NewsUpdatesR/<int:nid>',views.NewsUpdatesR,name="NewsUpdatesR"),
+    path('EditNews/<int:nid>',views.EditNews,name="EditNews"),
     path('delremarks/<int:did>/<int:nid>',views.delremarks,name="delremarks"),
     path('ViewFiles/<int:nid>',views.ViewFiles,name="ViewFiles"),
     
-    # path('ViewRAccept/<int:aid>/<int:nid>',views.ViewRAccept,name="ViewRAccept"),
-    # path('ViewRReject/<int:rid>/<int:nid>',views.ViewRReject,name="ViewRReject"),
+    path('ViewRAccept/<int:aid>/<int:nid>',views.ViewRAccept,name="ViewRAccept"),
+    path('ViewRReject/<int:rid>/<int:nid>',views.ViewRReject,name="ViewRReject"),
 
     path('chatpage/<int:id>',views.chatpage,name="chatpage"),
     path('ajaxchat/',views.ajaxchat,name="ajaxchat"),

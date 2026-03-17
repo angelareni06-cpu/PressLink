@@ -41,20 +41,43 @@
                 <td>
                     {% if i.news_status == 0 %}
 
-                    <a href="{% url 'Verifier:ViewAccept' i.id %}">Accept/ <a
-                            href="{% url 'Verifier:ViewReject' i.id %}">Reject</a>
-                        {% elif i.news_status == 1 %}
-                        Accepted
-                        <a href="{% url 'Verifier:ViewReject' i.id %}">Reject</a>
+                    <a href="{% url 'Verifier:ViewAccept' i.id %}">Accept</a> |
+                    <a href="{% url 'Verifier:ViewReject' i.id %}">Reject</a>
 
-                        {% elif i.news_status == 2 %}
-                        Rejected
-                        <a href="{% url 'Verifier:ViewAccept' i.id %}">Accept</a>
+                {% elif i.news_status == 1 %}
+                    Verified - Waiting for Admin
 
-                        {% elif i.news_status == 3 %}
-                        Published
+                {% elif i.news_status == 2 %}
+                    Rejected
 
-                        {% endif %}
+                {% elif i.news_status == 3 %}
+                    Amount set - waiting user
+
+                {% elif i.news_status == 4 %}
+                    User accepted amount
+
+                {% elif i.news_status == 5 %}
+                    User rejected amount
+
+                {% elif i.news_status == 6 %}
+                    Admin paid - waiting editor
+
+                {% elif i.news_status == 7 %}
+                    Editing by editor
+
+                {% elif i.news_status == 8 %}
+                    Edited - waiting confirmation
+
+                {% elif i.news_status == 9 %}
+                    Confirmed - waiting publish
+
+                {% elif i.news_status == 10 %}
+                    Published
+
+                {% else %}
+                    Status {{ i.news_status }}
+
+                {% endif %}
 
                 </td>
             </tr>

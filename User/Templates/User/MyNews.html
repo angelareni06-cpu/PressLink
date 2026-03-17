@@ -63,8 +63,8 @@
             {% elif i.news_status == 5 %}
             Amount Rejected
             {% elif i.news_status == 6 %}
-            Admin Paid - Waiting for Editor
-            {% elif i.news_status == 7 %}
+            Admin Paid - Waiting for Editor 
+            {% elif i.news_status == 7 %} 
             Editing by Editor
             {% elif i.news_status == 8 %}
             Edited - Please Confirm Edits
@@ -83,7 +83,7 @@
             {% elif i.news_status == 8 %}
             <a href="{% url 'User:ConfirmEdits' i.id %}">Confirm Edits</a> |
             <a href="{% url 'User:ViewUpdatesF' i.id %}">View Update Remarks</a>
-            <br>
+            <br> /
             <a href="{% url 'User:EditNews' i.id %}">Edit News Again</a>
             {% else %}
             <a href="{% url 'User:chatpage_usertoadmin' %}">Chat With Admin</a>

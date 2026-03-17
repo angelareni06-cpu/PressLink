@@ -23,18 +23,6 @@
         </tr>
 
         <tr>
-            <td>Photo</td>
-            <td>
-                <input type="file" name="file_photo" id="file_photo">
-
-                {% if editdata.admin_photo %}
-                <br><br>
-                <img src="{{ editdata.admin_photo.url }}" width="100">
-                {% endif %}
-            </td>
-        </tr>
-
-        <tr>
             <td>Password</td>
             <td>
                 <input type="password" required name="txt_password" id="txt_password"

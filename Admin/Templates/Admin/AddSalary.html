@@ -1,23 +1,101 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
-<h3 align="center">Add Salary for
-    {% if type == 'reporter' %}{{ data.reporter_name }}
-    {% elif type == 'editor' %}{{ data.editor_name }}
-    {% elif type == 'verifier' %}{{ data.verifier_name }}
-    {% endif %}
-</h3>
-<form method="post">
-    {% csrf_token %}
-    <table border="1" align="center" cellpadding="10" style="background:#fff;">
-        <tr>
-            <td>Amount</td>
-            <td><input type="number" name="txt_amount" required></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">
-                <input type="submit" value="Add Salary">
-            </td>
-        </tr>
-    </table>
-</form>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .salary-container {
+        width: 400px;
+        margin: 60px auto;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        padding: 30px;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .salary-container h3 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    .salary-table {
+        width: 100%;
+    }
+
+    .salary-table td {
+        padding: 10px;
+    }
+
+    .salary-table input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        transition: 0.3s;
+    }
+
+    .salary-table input[type="number"]:focus {
+        border-color: #667eea;
+        outline: none;
+        box-shadow: 0 0 5px rgba(102,126,234,0.5);
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 10px;
+        background: #667eea;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+        background: #5a67d8;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="salary-container">
+    <h3>
+        Add Salary for
+        {% if type == 'reporter' %}{{ data.reporter_name }}
+        {% elif type == 'editor' %}{{ data.editor_name }}
+        {% elif type == 'verifier' %}{{ data.verifier_name }}
+        {% endif %}
+    </h3>
+
+    <form method="post">
+        {% csrf_token %}
+        <table class="salary-table">
+            <tr>
+                <td>Amount</td>
+                <td><input type="number" name="txt_amount" required></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Add Salary" class="submit-btn">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 {% endblock %}

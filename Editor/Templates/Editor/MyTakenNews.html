@@ -1,0 +1,64 @@
+{% extends 'Editor/Header.html' %}
+{% block content %}
+
+<h3 align="center">My Taken News</h3>
+
+<table border="1" align="center" width="98%" style="border-collapse:collapse;"> 
+    <tr>
+        <th>Sl.No</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for i in NewsData %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.news_title }}</td>
+        <td>{{ i.news_content|truncatechars:120 }}</td>
+        <td>
+            {% if i.news_status == 7 %}
+                Editing by me
+            {% elif i.news_status == 8 %}
+                Edited - waiting confirmation
+            {% elif i.news_status == 9 %}
+                Confirmed - ready for publish
+            {% elif i.news_status == 10 %}
+                Published
+            {% else %}
+                Status {{ i.news_status }}
+            {% endif %}
+        </td>
+        <td>
+            {% if i.news_status == 7 %}
+                <a href="{% url 'Editor:EditNews' i.id %}">Edit</a> |
+                <a href="{% url 'Editor:NewsUpdatesR' i.id %}">Add Remark</a> |
+                <form method="post" action="{% url 'Editor:NewsUpdatesR' i.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="mark_ready">
+                    <button type="submit" style="background-color:#28a745;color:#fff;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Mark Ready</button>
+                </form>
+            {% elif i.news_status == 8 %}
+                Waiting Reporter/User Confirmation
+            {% elif i.news_status == 9 %}
+                Awaiting Admin publishing
+            {% elif i.news_status == 10 %}
+                Published by Admin
+            {% else %}
+                <span>N/A</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5" align="center">No taken news yet.</td></tr>
+    {% endfor %}
+</table>
+
+{% if msg %}
+<script>
+    alert("{{ msg }}");
+</script>
+{% endif %}
+
+{% endblock %}

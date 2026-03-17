@@ -75,4 +75,7 @@ urlpatterns = [
     path("ajaxchat/", views.ajaxchat, name="ajaxchat"),
     path("ajaxchatview/", views.ajaxchatview, name="ajaxchatview"),
     path("clearchat/", views.clearchat, name="clearchat"),  
+
+    path('Loader/', views.Loader, name='Loader'),
+    path('Payment_suc/', views.Payment_suc, name='Payment_suc'),
 ]

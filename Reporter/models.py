@@ -12,6 +12,7 @@ class tbl_news(models.Model):
     user=models.ForeignKey(tbl_user,on_delete=models.CASCADE,null=True)
     reporter=models.ForeignKey(tbl_reporter,on_delete=models.CASCADE,null=True)
     verifier=models.ForeignKey(tbl_verifier,on_delete=models.CASCADE,null=True)
+    editor=models.ForeignKey('Admin.tbl_editor', on_delete=models.SET_NULL, null=True, blank=True)
     breaking = models.IntegerField(default=0)
     news_amount = models.IntegerField(null=True, blank=True)
     

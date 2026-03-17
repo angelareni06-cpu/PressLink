@@ -41,7 +41,7 @@
                 <select name="sel_category" id="sel_category" required>
                     <option value="">---select---</option>
                     {% for i in category %}
-                    <option value="{{ i.id }}" {% if i.id==NewsData.subcategory.category.id %} selected {% endif %}>
+                    <option value="{{ i.id }}" {% if i.id == NewsData.subcategory.category.id %} selected {% endif %}>
                         {{ i.category_name }}
                     </option>
                     {% endfor %}

@@ -78,14 +78,14 @@ def TakeNews(request, nid):
         newsdata.editor = editor
         newsdata.news_status = 7
         newsdata.save()
-        return redirect('Editor:ViewVerifiednews')
+        return redirect('Editor:MyTakenNews')
     else:
         return redirect("Guest:Login")
 
 def MyTakenNews(request):
     if "Eid" in request.session:
         editor = tbl_editor.objects.get(id=request.session["Eid"])
-        NewsData = tbl_news.objects.filter(editor=editor)
+        NewsData = tbl_news.objects.filter(editor=editor).order_by('-news_date')
         return render(request, 'Editor/MyTakenNews.html', {"NewsData": NewsData})
     else:
         return redirect("Guest:Login")
@@ -113,6 +113,24 @@ def NewsUpdatesR(request, nid):
         newsdata = tbl_news.objects.get(id=nid)
         NewsUpdatesR = tbl_newsupdatesr.objects.filter(news=newsdata)
         if request.method == 'POST':
+            if request.POST.get('action') == 'mark_ready':
+                if newsdata.news_status == 7:
+                    newsdata.news_status = 8
+                    newsdata.save()
+                    return render(request, 'Editor/NewsUpdatesR.html', {
+                        'msg': 'Marked as edited. Awaiting source confirmation.',
+                        'newsdata': newsdata,
+                        'NewsUpdatesR': NewsUpdatesR,
+                        'nid': nid
+                    })
+                else:
+                    return render(request, 'Editor/NewsUpdatesR.html', {
+                        'msg': 'News must be in editing status to mark ready.',
+                        'newsdata': newsdata,
+                        'NewsUpdatesR': NewsUpdatesR,
+                        'nid': nid
+                    })
+
             remarks = request.POST.get("txt_remarks")
             editorId = tbl_editor.objects.get(id=request.session['Eid'])
             tbl_newsupdatesr.objects.create(
@@ -120,7 +138,15 @@ def NewsUpdatesR(request, nid):
                 news=newsdata,
                 editor=editorId
             )
-            return render(request, 'Editor/NewsUpdatesR.html', {'msg': 'data inserted', 'nid': nid})
+            if newsdata.news_status < 7:
+                newsdata.news_status = 7
+            newsdata.save()
+            return render(request, 'Editor/NewsUpdatesR.html', {
+                'msg': 'Remark added and status set to editing (7).',
+                'newsdata': newsdata,
+                'NewsUpdatesR': NewsUpdatesR,
+                'nid': nid
+            })
         else:
             return render(request, 'Editor/NewsUpdatesR.html', {
                 'newsdata': newsdata,
@@ -129,6 +155,28 @@ def NewsUpdatesR(request, nid):
             })
     else:
         return redirect("Guest:Login")
+
+
+def EditNews(request, nid):
+    if "Eid" in request.session:
+        newsdata = tbl_news.objects.get(id=nid)
+        subcategories = tbl_subcategory.objects.all()
+        if request.method == 'POST':
+            newsdata.news_title = request.POST.get('txt_title')
+            newsdata.news_content = request.POST.get('txt_content')
+            if request.FILES.get('file_image'):
+                newsdata.news_image = request.FILES.get('file_image')
+            newsdata.subcategory = tbl_subcategory.objects.get(id=request.POST.get('sel_subcategory'))
+            newsdata.news_status = 8
+            newsdata.save()
+            return redirect('Editor:NewsUpdatesR', nid=nid)
+        return render(request, 'Editor/EditNews.html', {
+            'newsdata': newsdata,
+            'subcategories': subcategories
+        })
+    else:
+        return redirect('Guest:Login')
+
 
 def delremarks(request, did, nid):
     tbl_newsupdatesr.objects.get(id=did).delete()
@@ -167,8 +215,23 @@ def Reject(request, fid):
         return redirect('Editor:ViewAdvertisement')
     else:
         return redirect("Guest:Login")
+    
+def ViewRAccept(request,aid,nid):
+    acceptdata=tbl_uploadfiles.objects.get(id=aid)
+    acceptdata.upload_status=1
+    acceptdata.editor=tbl_editor.objects.get(id=request.session['Eid'])
+    acceptdata.save()
+    return redirect('Editor:ViewFiles',nid)
+
+def ViewRReject(request,rid,nid):
+    rejectdata=tbl_uploadfiles.objects.get(id=rid)
+    rejectdata.upload_status=2
+    rejectdata.save()
+    return redirect('Editor:ViewFiles',nid)  
 
 def Complaint(request):
+
+    
     if "Eid" in request.session:
         editor = tbl_editor.objects.get(id=request.session["Eid"])
         complaintdata = tbl_complaint.objects.filter(editor_id=editor)

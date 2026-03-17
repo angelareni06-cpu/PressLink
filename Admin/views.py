@@ -24,14 +24,12 @@ def AdminRegistration(request):
         if request.method == 'POST':
             name = request.POST.get("txt_name")
             email = request.POST.get("txt_email")
-            photo = request.FILES.get("file_photo")
             password = request.POST.get("txt_password")
             if tbl_admin.objects.filter(admin_email=email).exists():
                 return render(request, 'Admin/AdminRegistration.html', {'msg': "Email Already Exist"})
             tbl_admin.objects.create(
                 admin_name=name,
                 admin_email=email,
-                admin_photo=photo,
                 admin_password=password
             )
             return redirect("Admin:AdminRegistration")
@@ -364,14 +362,16 @@ def delskill(request, id):
 
 def PublishedNews(request):
     if "aid" in request.session:
+        msg = request.session.pop('msg', None)
         NewsData = tbl_news.objects.filter(news_status__in=[1, 7, 8, 9, 10], reporter__isnull=False)
-        return render(request, 'Admin/PublishedNews.html', {"NewsData": NewsData})
+        return render(request, 'Admin/PublishedNews.html', {"NewsData": NewsData, "msg": msg})
     return redirect("Guest:Login")
 
 def FPublishedNews(request):
     if "aid" in request.session:
+        msg = request.session.pop('msg', None)
         NewsData = tbl_news.objects.filter(news_status__in=[1, 3, 4, 5, 6, 7, 8, 9, 10], user__isnull=False)
-        return render(request, 'Admin/FPublishedNews.html', {"Newsdata": NewsData})
+        return render(request, 'Admin/FPublishedNews.html', {"Newsdata": NewsData, "msg": msg})
     return redirect("Guest:Login")
 
 def ViewFiles(request, fid):
@@ -384,18 +384,24 @@ def ViewFiles(request, fid):
     return redirect("Guest:Login")
 
 def AdminPayUser(request, id):
-    if "aid" in request.session:
-        news = tbl_news.objects.get(id=id)
-        news.news_status = 6  # 6 means Admin paid user
+    news = tbl_news.objects.get(id=id)
+    if request.method == "POST":
+        news.news_status = 6  
         news.save()
         return redirect("Admin:FPublishedNews")
-    return redirect("Guest:Login")
+    else:
+        return render(request,"Admin/Payment2.html",{'total':news.news_amount})
 
 def PublishNews(request, id):
     if "aid" in request.session:
         news = tbl_news.objects.get(id=id)
-        news.news_status = 10  # 10 means Published
-        news.save()
+        if news.news_status == 9:
+            news.news_status = 10  # 10 means Published
+            news.save()
+        else:
+            # only allow admin publish after editor+user/reporter confirmation
+            # keep status unchanged and optionally add warning via session
+            request.session['msg'] = 'News must be in status 9 to publish.'
         if news.user:
             return redirect("Admin:FPublishedNews")
         else:
@@ -604,3 +610,12 @@ def clearchat(request):
 
     else:
         return render(request, "Guest/Login.html")
+
+
+
+
+def Loader(request):
+    return render(request,"Admin/Loader.html")
+
+def Payment_suc(request):
+    return render(request,"Admin/Payment_suc.html")

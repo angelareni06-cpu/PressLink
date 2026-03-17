@@ -53,14 +53,26 @@
             <a href="{% url 'Admin:ViewFiles' i.id %}">View Files</a><br>
             {% if i.news_status == 1 %}
             Verified (Pending Editor)
+            {% elif i.news_status == 2 %}
+            Rejected by Verifier
+            {% elif i.news_status == 3 %}
+            Amount set (should be for freelancer path)
+            {% elif i.news_status == 4 %}
+            Amount accepted by user
+            {% elif i.news_status == 5 %}
+            Amount rejected by user
+            {% elif i.news_status == 6 %}
+            Admin paid - waiting editor
             {% elif i.news_status == 7 %}
             Editing by Editor
             {% elif i.news_status == 8 %}
-            Wait Reporter Confirm Edit
+            Waiting Reports/User confirm edit
             {% elif i.news_status == 9 %}
             <a href="{% url 'Admin:PublishNews' i.id %}">Publish News</a>
             {% elif i.news_status == 10 %}
             Published
+            {% else %}
+            Status {{ i.news_status }}
             {% endif %}
         </td>
 

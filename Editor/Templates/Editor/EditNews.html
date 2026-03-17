@@ -1,0 +1,30 @@
+{% extends 'Editor/Header.html' %}
+{% block content %}
+
+<h3 align="center">Edit News</h3>
+
+<form method="post" enctype="multipart/form-data" style="width:90%; margin:auto;">
+    {% csrf_token %}
+    <table border="1" align="center" style="width:100%;">
+        <tr><td>Title</td><td><input type="text" name="txt_title" required value="{{ newsdata.news_title }}"></td></tr>
+        <tr><td>Content</td><td><textarea name="txt_content" rows="5" style="width:100%;" required>{{ newsdata.news_content }}</textarea></td></tr>
+        <tr><td>Category</td><td>{{ newsdata.subcategory.category.category_name }}</td></tr>
+        <tr><td>Subcategory</td><td>
+                <select name="sel_subcategory" required>
+                    {% for sub in subcategories %}
+                    <option value="{{ sub.id }}" {% if newsdata.subcategory.id == sub.id %}selected{% endif %}>{{ sub.subcategory_name }}</option>
+                    {% endfor %}
+                </select>
+            </td></tr>
+        <tr><td>Image</td><td>{{ newsdata.news_image }}<input type="file" name="file_image"></td></tr>
+        <tr><td colspan="2" align="center"><input type="submit" value="Save & Submit for Confirmation"></td></tr>
+    </table>
+</form>
+
+{% if msg %}
+<script>
+    alert("{{ msg }}");
+</script>
+{% endif %}
+
+{% endblock %}

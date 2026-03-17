@@ -118,7 +118,7 @@ def Login(request):
 
         # ===== USER =====
         elif usercount > 0:
-            userdata = tbl_user.objects.get(user_email=email, user_password=password)
+            userdata = tbl_user.objects.filter(user_email=email, user_password=password).first()
 
             if userdata.user_status == 0:
                 return render(request, 'Guest/Login.html', {

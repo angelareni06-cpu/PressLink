@@ -1,195 +1,144 @@
-{% extends 'Editor/Header.html' %}
-{% block content %}
+   {% extends 'Editor/Header.html' %}
+   {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewFiles</title>
 
 <style>
-    .page-wrapper {
-        min-height: 100vh;
-        padding: 50px 0;
-        font-family: Segoe UI;
-        background: linear-gradient(135deg, #f0f8ff, #e6fff2);
-    }
 
-    /* Card */
-    .adv-card {
-        max-width: 1200px;
-        width: 95%;
-        margin: auto;
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        overflow-x: auto;
-    }
+body
+{
+    margin:0;
+    padding:0;
+    font-family:Segoe UI;
+    background-color:#f0f8ff;
+}
 
-    /* Heading */
-    h3 {
-        text-align: center;
-        color: #2e8b57;
-        margin-bottom: 25px;
-        font-size: 24px;
-    }
 
-    /* Table */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 900px;
-    }
+/* Form Design */
 
-    /* Header */
-    table tr:first-child {
-        background-color: #d6f5ff;
-        color: #006666;
-        font-weight: bold;
-    }
+form
+{
+    width:70%;
+    margin:auto;
+    margin-top:40px;
+    background-color:#ffffff;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
 
-    /* Cells */
-    td {
-        padding: 12px;
-        border: 1px solid #b3e0ff;
-        text-align: center;
-        font-size: 14px;
-    }
 
-    /* Alternate */
-    tr:nth-child(even) {
-        background-color: #f9fffb;
-    }
+/* Heading */
 
-    /* Hover */
-    tr:hover {
-        background-color: #e6faf3;
-        transition: 0.3s;
-    }
+h3
+{
+    color:#0099cc;
+    margin-bottom:20px;
+}
 
-    /* File link */
-    .file-link {
-        color: #0077cc;
-        text-decoration: underline;
-        font-weight: 600;
-    }
 
-    /* Status Badge */
-    .badge {
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-    }
+/* Table */
 
-    .badge-pending {
-        background: #ffeaa7;
-        color: #b7791f;
-    }
+table
+{
+    width:100%;
+    border-collapse:collapse;
+    background-color:white;
+}
 
-    /* Buttons */
-    .action-btn {
-        text-decoration: none;
-        padding: 6px 14px;
-        border-radius: 6px;
-        font-weight: bold;
-        color: white;
-        margin: 3px;
-        display: inline-block;
-        transition: 0.3s;
-    }
 
-    .publish-btn {
-        background-color: #2ecc71;
-    }
+/* Table Header */
 
-    .publish-btn:hover {
-        background-color: #27ae60;
-    }
+table tr:first-child
+{
+    background-color:#d6f5ff;
+    color:#006666;
+    font-weight:bold;
+}
 
-    .reject-btn {
-        background-color: #e74c3c;
-    }
 
-    .reject-btn:hover {
-        background-color: #c0392b;
-    }
+/* Table Cells */
+
+td
+{
+    padding:12px;
+    border:1px solid #b3e0ff;
+    text-align:center;
+}
+
+
+/* Alternate Row */
+
+tr:nth-child(even)
+{
+    background-color:#f2fff2;
+}
+
+
+/* Hover Effect */
+
+tr:hover
+{
+    background-color:#ccffee;
+    transition:0.3s;
+}
+
+
+/* Image */
+
+img
+{
+    border-radius:8px;
+    border:2px solid #b3e0ff;
+}
+
+
+/* Buttons */
+
+
 </style>
 
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+    {%csrf_token %}
+    <h3 align="center">View Files</h3>
+    <table border="1" align="center">
+        <tr>
+            <td>Sl.No</td>
+            <td>Photo</td>
+            <td>Action</td>
+        </tr>
+        {% for i in uploaddata %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td><img src="{{i.upload_files.url}}" alt="" width="100" height="100"></td>
+            <td>
+                 {% if i.upload_status == 0 %}
+                    <a href="{% url 'Editor:ViewRAccept' i.id  nid %}">Accept/ <a href="{% url 'Editor:ViewRReject' i.id nid %}">Reject</a></td>
+                    {% elif i.upload_status == 1 %}
+                    Accepted 
+                    <a href="{% url 'Editor:ViewRReject' i.id nid %}">Reject</a>
 
-<div class="page-wrapper">
-
-    <div class="adv-card">
-
-        <h3>Pending Advertisements</h3>
-
-        <table>
-
-            <tr>
-                <td>Sl.No</td>
-                <td>Title</td>
-                <td>Content</td>
-                <td>File</td>
-                <td>User</td>
-                <td>Status</td>
-                <td>Action</td>
-            </tr>
-
-            {% for i in advdata %}
-            <tr>
-
-                <td>{{forloop.counter}}</td>
-
-                <td>{{i.advertisement_title}}</td>
-
-                <td>{{i.advertisement_content|truncatechars:80}}</td>
-
-                <td>
-                    {% if i.advertisement_file %}
-                    <a class="file-link" href="{{i.advertisement_file.url}}" target="_blank">
-                        View File
-                    </a>
-                    {% else %}
-                    No File
-                    {% endif %}
-                </td>
-
-                <td>{{i.user_id.user_name}}</td>
-
-                <td>
-                    <span class="badge badge-pending">Pending</span>
-                </td>
-
-                <td>
-
-                    <a class="action-btn publish-btn" href="{% url 'Editor:Confirm' i.id %}"
-                        onclick="return confirm('Are you sure you want to publish this advertisement?')">
-                        Publish
-                    </a>
-
-                    <a class="action-btn reject-btn" href="{% url 'Editor:Reject' i.id %}"
-                        onclick="return confirm('Are you sure you want to reject this advertisement?')">
-                        Reject
-                    </a>
-
-                </td>
-
-            </tr>
-
-            {% empty %}
-
-            <tr>
-                <td colspan="7">No pending advertisements available.</td>
-            </tr>
-
-            {% endfor %}
-
-        </table>
-
-    </div>
-
-</div>
-
-
+                    {% elif i.upload_status == 2 %}
+                    Rejected
+                    <a href="{% url 'Editor:ViewRAccept' i.id nid %}">Accept</a>
+                 {% endif  %}
+        </tr>
+        {% endfor %} 
+    </table>
+    </form>
+</body>
+</html>
 {% if msg %}
 <script>
-    alert("{{msg}}");
-    window.location = "{% url 'Editor:ViewAdvertisement' %}";
+    alert("{{msg}}")
+    window.location="{% url 'Editor:ViewFiles' nid %}";
 </script>
 {% endif %}
 

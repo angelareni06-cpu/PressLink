@@ -1,83 +1,163 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h3 align="center">Freelancer Published News</h3>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+    }
 
-<table border="1" align="center" cellpadding="8">
+    .container {
+        width: 95%;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Image</th>
-        <th>Category</th>
-        <th>Subcategory</th>
-        <th>Date</th>
-        <th>Freelancer</th>
-        <th>Action</th>
-        <th>Amount</th>
-    </tr>
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-    {% for i in Newsdata %}
-    <tr>
-        <td>{{ forloop.counter }}</td>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        <td>{{ i.news_title }}</td>
+    th {
+        background: #3b82f6;
+        color: white;
+        padding: 10px;
+        font-size: 14px;
+    }
 
-        <td>{{ i.news_content }}</td>
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+        font-size: 13px;
+    }
 
-        <td>
-            {% if i.news_image %}
-            <img src="{{ i.news_image.url }}" width="80" height="80">
-            {% else %}
-            No Image
-            {% endif %}
-        </td>
+    tr:nth-child(even) {
+        background: #f9fafb;
+    }
 
-        <td>{{ i.subcategory.category.category_name }}</td>
+    tr:hover {
+        background: #eef4ff;
+    }
 
-        <td>{{ i.subcategory.subcategory_name }}</td>
+    img {
+        border-radius: 5px;
+        object-fit: cover;
+    }
 
-        <td>{{ i.news_date }}</td>
+    a {
+        text-decoration: none;
+        color: #2563eb;
+        font-weight: 500;
+    }
 
-        <td>{{ i.user.user_name }}</td>
+    a:hover {
+        text-decoration: underline;
+    }
 
-        <td>
-            <a href="{% url 'Admin:ViewFiles' i.id %}">View Files</a>
-            <br>
-            <a href="{% url 'Admin:chatpage' i.user.id %}">Chat</a>
-        </td>
+    .status {
+        font-size: 12px;
+        font-weight: 500;
+    }
 
-        <td>
-            {% if i.news_status == 1 %}
-            <a href="{% url 'Admin:AddPayment' i.id %}">Add Amount</a>
-            {% elif i.news_status == 3 %}
-            ₹ {{ i.news_amount }} Added (Waiting User)
-            {% elif i.news_status == 4 %}
-            User Confirmed - <a href="{% url 'Admin:AdminPayUser' i.id %}">Pay ₹ {{ i.news_amount }}</a>
-            {% elif i.news_status == 5 %}
-            User Rejected Amount
-            {% elif i.news_status == 6 %}
-            Paid ₹ {{ i.news_amount }} (Pending Editor)
-            {% elif i.news_status == 7 %}
-            Editing by Editor
-            {% elif i.news_status == 8 %}
-            Waiting for User to Confirm Edit
-            {% elif i.news_status == 9 %}
-            <a href="{% url 'Admin:PublishNews' i.id %}">Publish News</a>
-            {% elif i.news_status == 10 %}
-            Published
-            {% endif %}
-        </td>
+    .empty {
+        padding: 15px;
+        font-weight: bold;
+        color: #555;
+    }
 
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="10" align="center">No Published News Found</td>
-    </tr>
-    {% endfor %}
+</style>
 
-</table>
+<div class="container">
+
+    <h3>Freelancer Published News</h3>
+
+    <table>
+
+        <tr>
+            <th>Sl.No</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Image</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Date</th>
+            <th>Freelancer</th>
+            <th>Action</th>
+            <th>Amount</th>
+        </tr>
+
+        {% for i in Newsdata %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+
+            <td>{{ i.news_title }}</td>
+
+            <td>{{ i.news_content }}</td>
+
+            <td>
+                {% if i.news_image %}
+                <img src="{{ i.news_image.url }}" width="70" height="70">
+                {% else %}
+                No Image
+                {% endif %}
+            </td>
+
+            <td>{{ i.subcategory.category.category_name }}</td>
+
+            <td>{{ i.subcategory.subcategory_name }}</td>
+
+            <td>{{ i.news_date }}</td>
+
+            <td>{{ i.user.user_name }}</td>
+
+            <td>
+                <a href="{% url 'Admin:ViewFiles' i.id %}">View Files</a> /
+                <a href="{% url 'Admin:chatpage' i.user.id %}">Chat</a>
+            </td>
+
+            <td class="status">
+                {% if i.news_status == 1 %}
+                <a href="{% url 'Admin:AddPayment' i.id %}">Add Amount</a>
+                {% elif i.news_status == 3 %}
+                ₹ {{ i.news_amount }} Added (Waiting User)
+                {% elif i.news_status == 4 %}
+                User Confirmed - 
+                <a href="{% url 'Admin:AdminPayUser' i.id %}">Pay ₹ {{ i.news_amount }}</a>
+                {% elif i.news_status == 5 %}
+                User Rejected Amount
+                {% elif i.news_status == 6 %}
+                Paid ₹ {{ i.news_amount }} (Pending Editor)
+                {% elif i.news_status == 7 %}
+                Editing by Editor
+                {% elif i.news_status == 8 %}
+                Waiting for User to Confirm Edit
+                {% elif i.news_status == 9 %}
+                <a href="{% url 'Admin:PublishNews' i.id %}">Publish News</a>
+                {% elif i.news_status == 10 %}
+                Published
+                {% endif %}
+            </td>
+
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="10" class="empty">No Published News Found</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
 
 {% if msg %}
 <script>

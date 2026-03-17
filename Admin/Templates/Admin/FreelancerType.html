@@ -1,56 +1,154 @@
 {% extends 'Admin/Header.html' %}
 {% block content %}
 
-<h3 align="center">Freelancer Type</h3>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
 
-<form action="" method="post">
-    {% csrf_token %}
+    .container {
+        width: 80%;
+        margin: 30px auto;
+    }
 
-    <table border="1" align="center">
+    .card {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
 
-        <tr>
-            <td>Freelancer Type</td>
-            <td>
-                <input type="text" name="txt_type" id="txt_type" required 
-                value="{{ editdata.freelancer_type|default:'' }}">
-            </td>
-        </tr>
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-        <tr>
-            <td colspan="2" align="center">
-                <input type="submit" value="Submit">
-            </td>
-        </tr>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-    </table>
+    td, th {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
 
-</form>
+    th {
+        background: #4CAF50;
+        color: white;
+    }
 
-<br><br>
+    tr:nth-child(even) {
+        background: #f9f9f9;
+    }
 
-<table border="1" align="center">
+    input[type="text"] {
+        width: 95%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
 
-    <tr>
-        <th>Sl.No</th>
-        <th>Freelancer Type</th>
-        <th>Action</th>
-    </tr>
+    input[type="text"]:focus {
+        outline: none;
+        border-color: #4CAF50;
+    }
 
-    {% for i in freelancer %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.freelancer_type}}</td>
-        <td>
-            <a href="{% url 'Admin:delfreelancer' i.id %}">Delete /  <a href="{% url 'Admin:editfreelancer' i.id %}">Edit</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="3" align="center">No Freelancer Types Added</td>
-    </tr>
-    {% endfor %}
+    input[type="submit"] {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
 
-</table>
+    input[type="submit"]:hover {
+        background: #45a049;
+    }
+
+    a {
+        text-decoration: none;
+        margin: 0 5px;
+        font-size: 13px;
+    }
+
+    a[href*="del"] {
+        color: #e74c3c;
+    }
+
+    a[href*="edit"] {
+        color: #3498db;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .empty {
+        font-weight: bold;
+        padding: 10px;
+    }
+
+</style>
+
+<div class="container">
+
+    <h3>Freelancer Type</h3>
+
+    <!-- FORM -->
+    <div class="card">
+        <form action="" method="post">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Freelancer Type</td>
+                    <td>
+                        <input type="text" name="txt_type" id="txt_type" required 
+                        value="{{ editdata.freelancer_type|default:'' }}">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Submit">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+        <table>
+            <tr>
+                <th>Sl.No</th>
+                <th>Freelancer Type</th>
+                <th>Action</th>
+            </tr>
+
+            {% for i in freelancer %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.freelancer_type}}</td>
+                <td>
+                    <a href="{% url 'Admin:delfreelancer' i.id %}">Delete</a> /
+                    <a href="{% url 'Admin:editfreelancer' i.id %}">Edit</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="empty">No Freelancer Types Added</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+</div>
 
 {% if msg %}
 <script>
