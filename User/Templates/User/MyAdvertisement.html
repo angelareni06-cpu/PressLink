@@ -1,6 +1,70 @@
 {% extends 'User/Header.html' %}
 {% block content %}
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    table {
+        margin-top: 20px;
+        background: #fff;
+        border-collapse: collapse;
+        width: 90%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    th {
+        background: #343a40;
+        color: #fff;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 10px;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    tr:hover {
+        background: #f1f1f1;
+    }
+
+    a {
+        text-decoration: none;
+        color: #007bff;
+        font-size: 13px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Status Colors */
+    td:last-child {
+        font-weight: 600;
+    }
+
+    td:last-child:contains("Rejected") {
+        color: red;
+    }
+
+    td:last-child:contains("Published") {
+        color: green;
+    }
+</style>
+
 <h3 align="center">My Advertisement</h3>
 
 <table border="1" align="center">
@@ -31,7 +95,6 @@
             {% endif %}
         </td>
 
-        <!-- AMOUNT COLUMN -->
         <td>
             {% if i.advertisement_amount %}
             ₹ {{ i.advertisement_amount }}
@@ -40,7 +103,6 @@
             {% endif %}
         </td>
 
-        <!-- STATUS COLUMN -->
         <td>
 
             {% if i.advertisement_status == 0 %}

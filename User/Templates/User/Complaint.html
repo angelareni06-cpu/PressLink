@@ -1,6 +1,111 @@
 {% extends 'User/Header.html' %}
 {% block content %}
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    /* FORM TABLE */
+    form table {
+        background: #fff;
+        border-collapse: collapse;
+        width: 400px;
+        margin-top: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-radius: 6px;
+    }
+
+    form td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    form tr td:first-child {
+        font-weight: 600;
+        color: #444;
+    }
+
+    input[type="text"], textarea {
+        width: 95%;
+        padding: 7px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 13px;
+        outline: none;
+    }
+
+    textarea {
+        height: 80px;
+        resize: none;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+        border-color: #007bff;
+    }
+
+    input[type="submit"] {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 7px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    input[type="submit"]:hover {
+        background: #218838;
+    }
+
+    /* LIST TABLE */
+    table {
+        margin-top: 20px;
+        background: #fff;
+        border-collapse: collapse;
+        width: 90%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    th {
+        background: #007bff;
+        color: white;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 10px;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    tr:hover {
+        background: #f1f1f1;
+    }
+
+    a {
+        color: red;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+
 <h3 align="center">Add Complaint</h3>
 
 <form method="post">

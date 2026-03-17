@@ -1,73 +1,177 @@
 {% extends 'User/Header.html' %}
 {% block content %}
 
-<h3 align="center">Advertisement</h3>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f4f8;
+    }
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <table border="1" align="center">
-        <tr>
-            <td>Title</td>
-            <td>
-                <input type="text" name="txt_title" id="txt_title" required>
-            </td>
-        </tr>
+    h3 {
+        text-align: center;
+        margin: 20px 0;
+        color: #333;
+    }
 
-        <tr>
-            <td>Content</td>
-            <td>
-                <textarea name="txt_content" id="txt_content" required></textarea>
-            </td>
-        </tr>
+    .container {
+        width: 70%;
+        margin: auto;
+    }
 
-        <tr>
-            <td>File</td>
-            <td>
-                <input type="file" name="txt_file" id="txt_file" required>
-            </td>
-        </tr>
+    /* FORM STYLE */
+    .form-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
 
-        <tr>
-            <td colspan="2" align="center">
-                <input type="submit" value="Submit">
-            </td>
-        </tr>
-    </table>
-</form>
+    .form-group {
+        margin-bottom: 12px;
+    }
 
-<br>
+    label {
+        font-weight: 600;
+        font-size: 14px;
+    }
 
-<table border="1" align="center">
-    <tr>
-        <th>Sl.No</th>
-        <th>Title</th>
-        <th>Content</th>
-        <th>File</th>
-        <th>Action</th>
-    </tr>
+    input, textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 13px;
+    }
 
+    textarea {
+        height: 80px;
+        resize: none;
+    }
+
+    input[type="file"] {
+        border: none;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background: #218838;
+    }
+
+    /* CARD LIST STYLE */
+    .ad-card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        margin-bottom: 15px;
+    }
+
+    .ad-title {
+        font-weight: bold;
+        font-size: 16px;
+        color: #222;
+        margin-bottom: 5px;
+    }
+
+    .ad-content {
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .ad-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .view {
+        color: #007bff;
+    }
+
+    .delete {
+        color: red;
+    }
+
+    .empty {
+        text-align: center;
+        color: #888;
+        margin-top: 20px;
+    }
+</style>
+
+<h3>Advertisement</h3>
+
+<div class="container">
+
+    <!-- FORM -->
+    <div class="form-card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" name="txt_title" required>
+            </div>
+
+            <div class="form-group">
+                <label>Content</label>
+                <textarea name="txt_content" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>File</label>
+                <input type="file" name="txt_file" required>
+            </div>
+
+            <input type="submit" value="Submit Advertisement" class="btn">
+        </form>
+    </div>
+
+    <!-- LIST AS CARDS -->
     {% for i in Advdata %}
-    <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ i.advertisement_title }}</td>
-        <td>{{ i.advertisement_content }}</td>
+    <div class="ad-card">
+        <div class="ad-title">{{ i.advertisement_title }}</div>
 
-        <td>
-            {% if i.advertisement_file %}
-            <a href="{{ i.advertisement_file.url }}" target="_blank">
-                View File
-            </a>
-            {% else %}
-            No File
-            {% endif %}
-        </td>
+        <div class="ad-content">
+            {{ i.advertisement_content }}
+        </div>
 
-        <td>
-            <a href="{% url 'User:delAdv' i.id %}">Delete</a>
-        </td>
-    </tr>
+        <div class="ad-actions">
+            <div>
+                {% if i.advertisement_file %}
+                <a class="view" href="{{ i.advertisement_file.url }}" target="_blank">View File</a>
+                {% else %}
+                No File
+                {% endif %}
+            </div>
+
+            <div>
+                <a class="delete" href="{% url 'User:delAdv' i.id %}">Delete</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty">No Advertisements Found</div>
     {% endfor %}
-</table>
+
+</div>
 
 {% if msg %}
 <script>

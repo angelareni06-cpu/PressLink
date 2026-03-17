@@ -1,6 +1,60 @@
 {% extends 'User/Header.html' %}
 {% block content %}
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    table {
+        margin-top: 20px;
+        width: 60%;
+        background: #fff;
+        border-collapse: collapse;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-radius: 8px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    th {
+        background: #f1f1f1;
+        font-weight: 600;
+        color: #444;
+    }
+
+    tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    tr:hover {
+        background: #eef3ff;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 13px;
+        color: #007bff;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    a:hover {
+        background: #007bff;
+        color: #fff;
+    }
+</style>
+
 <h3 align="center">News Updates / Remarks</h3>
 
 <table border="1" align="center">

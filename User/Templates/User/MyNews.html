@@ -1,6 +1,80 @@
 {% extends 'User/Header.html' %}
 {% block content %}
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    table {
+        margin-top: 20px;
+        background: #fff;
+        border-collapse: collapse;
+        width: 95%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    th {
+        background: #222;
+        color: #fff;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 10px;
+        font-size: 13px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    tr:hover {
+        background: #f1f1f1;
+    }
+
+    img {
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 13px;
+        color: #007bff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Special Action Links */
+    td:last-child a {
+        display: inline-block;
+        margin: 2px 0;
+    }
+
+    /* Improve long text */
+    td:nth-child(3) {
+        max-width: 200px;
+        word-wrap: break-word;
+    }
+
+    td:nth-child(2) {
+        max-width: 150px;
+        word-wrap: break-word;
+    }
+</style>
+
 <h3 align="center">My News</h3>
 
 <table border="1" align="center">
@@ -39,7 +113,6 @@
 
         <td>{{ i.news_date }}</td>
 
-        <!-- AMOUNT -->
         <td>
             {% if i.news_amount %}
             ₹ {{ i.news_amount }}
@@ -48,7 +121,6 @@
             {% endif %}
         </td>
 
-        <!-- STATUS -->
         <td>
             {% if i.news_status == 0 %}
             Waiting for Verification
@@ -75,16 +147,17 @@
             {% endif %}
         </td>
 
-        <!-- ACTION -->
         <td>
             {% if i.news_status == 3 %}
             <a href="{% url 'User:AcceptAmount' i.id %}">Accept</a> |
             <a href="{% url 'User:RejectAmount' i.id %}">Reject</a>
+
             {% elif i.news_status == 8 %}
             <a href="{% url 'User:ConfirmEdits' i.id %}">Confirm Edits</a> |
             <a href="{% url 'User:ViewUpdatesF' i.id %}">View Update Remarks</a>
             <br> /
             <a href="{% url 'User:EditNews' i.id %}">Edit News Again</a>
+
             {% else %}
             <a href="{% url 'User:chatpage_usertoadmin' %}">Chat With Admin</a>
             {% endif %}

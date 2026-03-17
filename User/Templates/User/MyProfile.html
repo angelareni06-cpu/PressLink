@@ -1,6 +1,61 @@
 {% extends 'User/Header.html' %}
 {% block content %}
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    table {
+        margin-top: 20px;
+        background: #fff;
+        border-collapse: collapse;
+        width: 350px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-radius: 8px;
+    }
+
+    td {
+        padding: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    tr td:first-child {
+        font-weight: 600;
+        color: #444;
+        text-align: left;
+        width: 120px;
+    }
+
+    img {
+        border-radius: 50%;
+        border: 3px solid #ddd;
+        object-fit: cover;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 13px;
+        color: #007bff;
+        margin: 0 5px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+</style>
+
 <h3 align="center">My Profile</h3>
 
 <table border="1" align="center">

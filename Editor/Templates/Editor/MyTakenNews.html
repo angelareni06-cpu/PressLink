@@ -1,9 +1,115 @@
 {% extends 'Editor/Header.html' %}
 {% block content %}
 
-<h3 align="center">My Taken News</h3>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f8f9fc;
+    }
 
-<table border="1" align="center" width="98%" style="border-collapse:collapse;"> 
+    h3 {
+        text-align: center;
+        margin: 20px 0;
+        color: #333;
+    }
+
+    .table-box {
+        width: 95%;
+        margin: auto;
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        background: #f1f3f6;
+        padding: 10px;
+        font-size: 14px;
+        color: #444;
+    }
+
+    td {
+        padding: 10px;
+        font-size: 13px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+        background: #fafafa;
+    }
+
+    /* STATUS BADGES */
+    .status {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .editing {
+        background: #ffeeba;
+        color: #856404;
+    }
+
+    .waiting {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+
+    .confirmed {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .published {
+        background: #cce5ff;
+        color: #004085;
+    }
+
+    /* ACTION LINKS */
+    a {
+        text-decoration: none;
+        font-size: 13px;
+        margin: 0 4px;
+    }
+
+    .edit { color: #007bff; }
+    .remark { color: #6f42c1; }
+
+    button {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    .empty {
+        text-align: center;
+        color: #888;
+        padding: 12px;
+    }
+</style>
+
+<h3>My Taken News</h3>
+
+<div class="table-box">
+<table>
+
     <tr>
         <th>Sl.No</th>
         <th>Title</th>
@@ -17,43 +123,55 @@
         <td>{{ forloop.counter }}</td>
         <td>{{ i.news_title }}</td>
         <td>{{ i.news_content|truncatechars:120 }}</td>
+
         <td>
             {% if i.news_status == 7 %}
-                Editing by me
+                <span class="status editing">Editing</span>
             {% elif i.news_status == 8 %}
-                Edited - waiting confirmation
+                <span class="status waiting">Waiting</span>
             {% elif i.news_status == 9 %}
-                Confirmed - ready for publish
+                <span class="status confirmed">Confirmed</span>
             {% elif i.news_status == 10 %}
-                Published
+                <span class="status published">Published</span>
             {% else %}
                 Status {{ i.news_status }}
             {% endif %}
         </td>
+
         <td>
             {% if i.news_status == 7 %}
-                <a href="{% url 'Editor:EditNews' i.id %}">Edit</a> |
-                <a href="{% url 'Editor:NewsUpdatesR' i.id %}">Add Remark</a> |
+                <a class="edit" href="{% url 'Editor:EditNews' i.id %}">Edit</a> |
+                <a class="remark" href="{% url 'Editor:NewsUpdatesR' i.id %}">Remark</a> |
+
                 <form method="post" action="{% url 'Editor:NewsUpdatesR' i.id %}" style="display:inline;">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="mark_ready">
-                    <button type="submit" style="background-color:#28a745;color:#fff;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Mark Ready</button>
+                    <button type="submit">Mark Ready</button>
                 </form>
+
             {% elif i.news_status == 8 %}
-                Waiting Reporter/User Confirmation
+                Waiting Confirmation
+
             {% elif i.news_status == 9 %}
-                Awaiting Admin publishing
+                Ready to Publish
+
             {% elif i.news_status == 10 %}
-                Published by Admin
+                Done
+
             {% else %}
-                <span>N/A</span>
+                N/A
             {% endif %}
         </td>
     </tr>
+
     {% empty %}
-    <tr><td colspan="5" align="center">No taken news yet.</td></tr>
+    <tr>
+        <td colspan="5" class="empty">No taken news yet.</td>
+    </tr>
     {% endfor %}
+
 </table>
+</div>
 
 {% if msg %}
 <script>

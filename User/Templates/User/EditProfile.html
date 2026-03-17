@@ -8,45 +8,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EditProfile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+
+        form {
+            margin-top: 60px;
+        }
+
+        table {
+            background: #fff;
+            border-collapse: collapse;
+            width: 400px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-radius: 6px;
+        }
+
+        td {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        tr td:first-child {
+            font-weight: 600;
+            color: #444;
+            width: 120px;
+        }
+
+        input[type="text"], textarea {
+            width: 95%;
+            padding: 7px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        textarea {
+            height: 80px;
+            resize: none;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #007bff;
+        }
+
+        input[type="submit"] {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+    </style>
+
 </head>
 
 <body>
     <form action="" method="post">
-        {%csrf_token %}
+        {% csrf_token %}
         <table border="1" align="center">
             <tr>
                 <td>Name</td>
-                <td><input type="text" required name="txt_name"
+                <td>
+                    <input type="text" required name="txt_name"
                         id="txt_name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter"
-                        pattern="^[A-Z]+[a-zA-Z ]*$" value="{{userdata.user_name}}"></td>
+                        pattern="^[A-Z]+[a-zA-Z ]*$" value="{{userdata.user_name}}">
+                </td>
             </tr>
+
             <tr>
                 <td>Email</td>
-                <td><input type="text" required name="txt_email" id="txt_email" value="{{userdata.user_email}}"></td>
+                <td>
+                    <input type="text" required name="txt_email" id="txt_email"
+                        value="{{userdata.user_email}}">
+                </td>
             </tr>
+
             <tr>
                 <td>Contact</td>
-                <td><input type="text" required name="txt_contact" id="txt_contact" pattern="[7-9]{1}[0-9]{9}"
-                        title="Phone number with 7-9 and remaing 9 digit with 0-9" value="{{userdata.user_contact}}">
+                <td>
+                    <input type="text" required name="txt_contact" id="txt_contact"
+                        pattern="[7-9]{1}[0-9]{9}"
+                        title="Phone number with 7-9 and remaing 9 digit with 0-9"
+                        value="{{userdata.user_contact}}">
                 </td>
             </tr>
+
             <tr>
                 <td>Address</td>
-                <td><textarea name="txt_address" id="txt_address" value="{{userdata.user_address}}" required></textarea>
+                <td>
+                    <textarea name="txt_address" id="txt_address" required>{{userdata.user_address}}</textarea>
                 </td>
             </tr>
+
             <tr>
-                <td colspan="2" align="center"><input type="submit" value="Update"></td>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Update">
+                </td>
             </tr>
         </table>
     </form>
 </body>
+
 {% if msg %}
 <script>
     alert("{{msg}}")
     window.location = "{% url 'User:MyProfile' %}";
 </script>
-{% endif %}
+{% endif %}
 
 </html>
 

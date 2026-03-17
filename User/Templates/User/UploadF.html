@@ -1,6 +1,71 @@
 {% extends 'User/Header.html' %}
 {% block content %}
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    table {
+        margin-top: 20px;
+        background: #fff;
+        border-collapse: collapse;
+        width: 350px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-radius: 8px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    th {
+        background: #f1f1f1;
+        font-weight: 600;
+        color: #444;
+    }
+
+    tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    input[type="file"] {
+        font-size: 13px;
+    }
+
+    input[type="submit"] {
+        padding: 6px 15px;
+        font-size: 13px;
+        border: none;
+        border-radius: 5px;
+        background: #007bff;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background: #0056b3;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 13px;
+        color: #007bff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+
 <h3 align="center">Upload Extra Files</h3>
 
 <form method="post" enctype="multipart/form-data">
