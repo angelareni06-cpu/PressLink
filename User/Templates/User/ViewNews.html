@@ -1,0 +1,131 @@
+{% extends 'User/Header.html' %}
+{% block content %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px 0;
+    }
+
+    h3 {
+        text-align: center;
+        color: #333;
+        font-weight: normal;
+        margin-bottom: 20px;
+    }
+
+    .msg {
+        text-align: center;
+        color: #c00;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    table {
+        width: 95%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+        padding: 10px 12px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #222;
+        color: #fff;
+        font-weight: normal;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #e6f7ff;
+        transition: 0.3s;
+    }
+
+    td img {
+        max-width: 100px;
+        max-height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    td {
+        word-wrap: break-word;
+    }
+
+    .no-data {
+        text-align: center;
+        margin-top: 40px;
+        color: #666;
+        font-size: 16px;
+    }
+
+    @media screen and (max-width: 768px) {
+        table, th, td {
+            font-size: 13px;
+        }
+
+        td img {
+            max-width: 60px;
+            max-height: 50px;
+        }
+    }
+</style>
+
+<h3>Published News</h3>
+
+{% if msg %}
+<div class="msg">{{ msg }}</div>
+{% endif %}
+
+{% if newsdata %}
+<table>
+    <thead>
+        <tr>
+            <th>Sl.No</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Image</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Source</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in newsdata %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.news_title }}</td>
+            <td style="max-width:300px;">{{ i.news_content }}</td>
+            <td>
+                {% if i.news_image %}
+                <img src="{{ i.news_image.url }}" alt="News Image">
+                {% else %}No Image{% endif %}
+            </td>
+            <td>{{ i.news_date }}</td>
+            <td>{{ i.subcategory.category.category_name }}</td>
+            <td>{{ i.subcategory.subcategory_name }}</td>
+            <td>{% if i.user %}Freelancer{% elif i.reporter %}Reporter{% else %}Internal{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="no-data">No published news available yet.</div>
+{% endif %}
+
+{% endblock %}

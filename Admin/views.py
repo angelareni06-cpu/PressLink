@@ -5,12 +5,52 @@ from Reporter.models import *
 from Editor.models import *
 from User.models import *
 from datetime import datetime
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.http import HttpResponse
+
 
 def HomePage(request):
     if "aid" in request.session:
-        return render(request, 'Admin/HomePage.html')
+        total_users = tbl_user.objects.count()
+        total_reporters = tbl_reporter.objects.count()
+        total_verifiers = tbl_verifier.objects.count()
+        total_editors = tbl_editor.objects.count()
+
+        total_subscriptions = tbl_subscription.objects.count()
+
+        # plan_amount is stored as text, safe-cast to int
+        subscription_amount = 0
+        for s in tbl_subscription.objects.select_related('plan').all():
+            try:
+                subscription_amount += int(s.plan.plan_amount)
+            except (ValueError, TypeError, AttributeError):
+                continue
+
+        advertisement_amount = tbl_advertisement.objects.filter(advertisement_amount__isnull=False).aggregate(total=Sum('advertisement_amount'))['total'] or 0
+
+        # revenue from news amounts and payment amounts
+        news_amount = tbl_news.objects.filter(news_amount__isnull=False).aggregate(total=Sum('news_amount'))['total'] or 0
+        payment_amount = tbl_payment.objects.filter(payment_amount__isnull=False).aggregate(total=Sum('payment_amount'))['total'] or 0
+
+        total_complaints = tbl_complaint.objects.count()
+        recent_complaints = tbl_complaint.objects.order_by('-complaint_date')[:5]
+
+        recent_users = tbl_user.objects.order_by('-id')[:5]
+
+        return render(request, 'Admin/HomePage.html', {
+            'total_users': total_users,
+            'total_reporters': total_reporters,
+            'total_verifiers': total_verifiers,
+            'total_editors': total_editors,
+            'total_subscriptions': total_subscriptions,
+            'subscription_amount': subscription_amount,
+            'advertisement_amount': advertisement_amount,
+            'news_amount': news_amount,
+            'payment_amount': payment_amount,
+            'total_complaints': total_complaints,
+            'recent_complaints': recent_complaints,
+            'recent_users': recent_users,
+        })
     return redirect("Guest:Login")
 
 def Logout(request):

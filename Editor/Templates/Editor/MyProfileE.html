@@ -2,87 +2,68 @@
 {% block content %}
 
 <style>
+    /* Page wrapper */
     .page-wrapper {
         min-height: 100vh;
-        padding-top: 60px;
-        font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #5ca3e1, #d1f5ea);
+        padding-top: 40px;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
     }
 
-    /* card design */
+    /* Profile card */
     .profile-card {
-        background: #ffffff;
-        border-radius: 12px;
-        padding: 30px;
-        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
-        border-left: 6px solid #8ee0c1;
-
-        max-width: 550px;
-        width: 90%;
-        margin: auto;
-
-        animation: fadeIn 0.5s ease-in-out;
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
     }
 
-    /* animation */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-15px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Profile image */
+    img {
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        margin-bottom: 20px;
+        border: 2px solid #ddd;
     }
 
-    /* table */
+    /* Table */
     table {
         width: 100%;
         border-collapse: collapse;
+        margin-top: 10px;
     }
 
-    /* text */
     td {
-        padding: 15px;
+        padding: 10px;
         font-size: 16px;
+        text-align: left;
     }
 
-    /* label */
     td:first-child {
-        color: #5aa7d6;
+        color: #333;
         font-weight: 600;
         width: 35%;
     }
 
-    /* profile image */
-    img {
-        border-radius: 50%;
-        border: 5px solid #bde3ff;
-        padding: 5px;
-        background: #e6faf3;
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
-        object-fit: cover;
-    }
-
-    /* links */
+    /* Links */
     a {
         text-decoration: none;
-        color: #5aa7d6;
-        font-size: 16px;
-        font-weight: 600;
-        margin: 10px;
-        transition: 0.3s;
+        color: #007bff;
+        font-weight: 500;
+        margin: 0 8px;
+        transition: color 0.3s;
     }
 
-    /* hover */
     a:hover {
-        color: #4cd3a8;
+        color: #0056b3;
         text-decoration: underline;
     }
 </style>
-
 
 <div class="page-wrapper">
 
@@ -94,9 +75,9 @@
                 <td colspan="2" align="center">
 
                     {% if editordata.editor_photo %}
-                    <img src="{{editordata.editor_photo.url}}" width="250" height="250" alt="editor">
+                    <img src="{{editordata.editor_photo.url}}" alt="editor">
                     {% else %}
-                    <img src="/static/default.png" width="250" height="250" alt="default">
+                    <img src="/static/default.png" alt="default">
                     {% endif %}
 
                 </td>

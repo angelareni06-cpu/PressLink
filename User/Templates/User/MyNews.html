@@ -152,11 +152,15 @@
             <a href="{% url 'User:AcceptAmount' i.id %}">Accept</a> |
             <a href="{% url 'User:RejectAmount' i.id %}">Reject</a>
 
-            {% elif i.news_status == 8 %}
-            <a href="{% url 'User:ConfirmEdits' i.id %}">Confirm Edits</a> |
+            {% elif i.news_status == 7 or i.news_status == 8 %}
             <a href="{% url 'User:ViewUpdatesF' i.id %}">View Update Remarks</a>
-            <br> /
-            <a href="{% url 'User:EditNews' i.id %}">Edit News Again</a>
+            {% if i.news_status == 8 %}
+            | <a href="{% url 'User:ConfirmEdits' i.id %}">Confirm Edits</a>
+            | <a href="{% url 'User:EditNews' i.id %}">Edit News Again</a>
+            {% endif %}
+
+            {% elif i.news_status == 9 %}
+            Waiting for Admin Publish
 
             {% else %}
             <a href="{% url 'User:chatpage_usertoadmin' %}">Chat With Admin</a>

@@ -103,9 +103,34 @@
         color: #888;
         padding: 12px;
     }
+
+    .home-link-box {
+        width: 95%;
+        margin: 20px auto 10px auto;
+    }
+
+    .home-link {
+        display: inline-block;
+        text-decoration: none;
+        font-size: 14px;
+        color: #333;
+        background: #ffffff;
+        border: 1px solid #ddd;
+        padding: 8px 14px;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .home-link:hover {
+        background: #f5f5f5;
+    }
 </style>
 
 <h3>My Taken News</h3>
+
+<div class="home-link-box" align="left">
+    <a href="{% url 'Editor:Homepage' %}" class="home-link">← Back to Home</a>
+</div>
 
 <div class="table-box">
 <table>
@@ -148,18 +173,27 @@
                     <input type="hidden" name="action" value="mark_ready">
                     <button type="submit">Mark Ready</button>
                 </form>
-
-            {% elif i.news_status == 8 %}
-                Waiting Confirmation
-
-            {% elif i.news_status == 9 %}
-                Ready to Publish
-
-            {% elif i.news_status == 10 %}
-                Done
-
             {% else %}
-                N/A
+                {% if i.news_status == 8 %}
+                    Waiting Confirmation
+                {% elif i.news_status == 9 %}
+                    Ready to Publish
+                {% elif i.news_status == 10 %}
+                    Done
+                {% else %}
+                    N/A
+                {% endif %}
+            {% endif %}
+
+            <br>
+            <a href="{% url 'Editor:ViewFiles' i.id %}">View Files</a>
+            |
+            {% if i.user %}
+                <a href="{% url 'Editor:chatpage' i.user.id %}">Chat User</a>
+            {% elif i.reporter %}
+                <a href="{% url 'Editor:chatpager' i.reporter.id %}">Chat Reporter</a>
+            {% else %}
+                No chat target
             {% endif %}
         </td>
     </tr>

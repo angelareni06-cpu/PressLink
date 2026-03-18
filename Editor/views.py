@@ -230,8 +230,6 @@ def ViewRReject(request,rid,nid):
     return redirect('Editor:ViewFiles',nid)  
 
 def Complaint(request):
-
-    
     if "Eid" in request.session:
         editor = tbl_editor.objects.get(id=request.session["Eid"])
         complaintdata = tbl_complaint.objects.filter(editor_id=editor)

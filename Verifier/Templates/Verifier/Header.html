@@ -138,9 +138,11 @@
                 </div>
                 <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
                     <div class="navbar-nav mx-auto border-top">
-                         <a href="#section_home" class="nav-item nav-link active">Home</a>
-                        <a href="#section_about" class="nav-item nav-link" >About PressLink</a>
-                        <a href="#section_works" class="nav-item nav-link">How PressLink Works</a>
+                        <a href="#section_home" class="nav-item nav-link active">Home</a>
+                         <a href="{% url 'Verifier:MyProfile' %}" class="nav-item nav-link" >My Profile</a>
+                        <a href="{% url 'Verifier:ViewNewsR' %}" class="nav-item nav-link" >View Reporter news </a>
+                        <a href="{% url 'Verifier:ViewNewsF' %}" class="nav-item nav-link">View Freelancer news</a>
+                        <a href="{% url 'Verifier:ViewAdvertisement' %}" class="nav-item nav-link" >View Advertisement </a>
                         <a href="#section_contact" class="nav-item nav-link">Contact Us</a>
                         <a href="{% url 'Verifier:Logout' %}" class="nav-item nav-link btn btn-primary text-white ms-3 rounded-pill px-4">Logout</a> 
                     </div>
@@ -160,9 +162,9 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn-search btn border border-primary btn-md-square rounded-circle bg-white my-auto"
+                <!-- <button class="btn-search btn border border-primary btn-md-square rounded-circle bg-white my-auto"
                     data-bs-toggle="modal" data-bs-target="#searchModal"><i
-                        class="fas fa-search text-primary"></i></button>
+                        class="fas fa-search text-primary"></i></button> -->
         </div>
     </div>
     </nav>

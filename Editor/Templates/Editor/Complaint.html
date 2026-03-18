@@ -2,133 +2,113 @@
 {% block content %}
 
 <style>
+    /* Page Wrapper */
     .page-wrapper {
         min-height: 100vh;
-        padding-top: 40px;
-        font-family: Segoe UI;
-        background-color: #f0f8ff;
+        padding-top: 20px;
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
     }
 
+    /* Heading */
+    h3 {
+        color: #333;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-weight: normal;
+    }
 
-    /* Form Design */
-
+    /* Form */
     .complaint-form {
         width: 60%;
         margin: auto;
-        background-color: #ffffff;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
     }
-
-
-    /* Heading */
-
-    h3 {
-        color: #0099cc;
-        margin-top: 30px;
-    }
-
-
-    /* Table */
-
-    table {
-        border-collapse: collapse;
-        background-color: white;
-        margin-top: 20px;
-        width: 90%;
-    }
-
-
-    /* Table Header */
-
-    table tr:first-child {
-        background-color: #d6f5ff;
-        color: #006666;
-        font-weight: bold;
-    }
-
-
-    /* Table Cells */
-
-    td {
-        padding: 12px;
-        border: 1px solid #b3e0ff;
-    }
-
-
-    /* Alternate Row */
-
-    tr:nth-child(even) {
-        background-color: #f2fff2;
-    }
-
-
-    /* Hover */
-
-    tr:hover {
-        background-color: #ccffee;
-        transition: 0.3s;
-    }
-
-
-    /* Input Fields */
 
     input[type="text"],
     textarea {
         width: 95%;
-        padding: 8px;
-        border: 1px solid #b3e0ff;
-        border-radius: 6px;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
         outline: none;
     }
 
-
-    /* Submit Button */
+    textarea {
+        height: 80px;
+        resize: none;
+    }
 
     input[type="submit"] {
-        background-color: #66cc99;
+        background-color: #007bff;
         color: white;
         border: none;
-        padding: 10px 20px;
-        border-radius: 6px;
-        font-weight: bold;
+        padding: 8px 18px;
+        border-radius: 4px;
         cursor: pointer;
+        font-size: 14px;
     }
-
-
-    /* Submit Hover */
 
     input[type="submit"]:hover {
-        background-color: #5cd65c;
+        background-color: #0056b3;
     }
 
+    /* Table */
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        font-size: 14px;
+    }
 
-    /* Delete Button */
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
 
+    th {
+        background-color: #f2f2f2;
+        font-weight: 600;
+        color: #333;
+    }
+
+    tr:nth-child(even) {
+        background-color: #fafafa;
+    }
+
+    tr:hover {
+        background-color: #f1faff;
+        transition: 0.2s;
+    }
+
+    /* Action Links */
     a {
         text-decoration: none;
-        background-color: #66b3ff;
-        color: white;
-        padding: 6px 14px;
-        border-radius: 6px;
+        color: #dc3545;
         font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 13px;
     }
-
 
     a:hover {
-        opacity: 0.85;
+        background-color: #dc3545;
+        color: white;
     }
 </style>
-
 
 <div class="page-wrapper">
 
     <form method="post" class="complaint-form">
         {% csrf_token %}
-
-        <table align="center">
-
+        <table>
             <tr>
                 <td>Title</td>
                 <td><input type="text" required name="txt_title"></td>
@@ -144,46 +124,50 @@
                     <input type="submit" value="Submit">
                 </td>
             </tr>
-
         </table>
-
     </form>
 
+    <h3>Complaint List</h3>
 
-    <h3 align="center">Complaint List</h3>
-
-    <table align="center">
-
+    <table>
         <tr>
-            <td>Sl.No</td>
-            <td>Title</td>
-            <td>Content</td>
-            <td>Date</td>
-            <td>Reply</td>
-            <td>Action</td>
+            <th>Sl.No</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Date</th>
+            <th>Reply</th>
+            <th>Action</th>
         </tr>
 
-        {% for i in ComplaintData %}
+        {% for i in complaintdata %}
         <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{i.complaint_title}}</td>
-            <td>{{i.complaint_content}}</td>
-            <td>{{i.complaint_date}}</td>
-            <td>{{i.complaint_reply}}</td>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.complaint_title }}</td>
+            <td>{{ i.complaint_content }}</td>
+            <td>{{ i.complaint_date }}</td>
+            <td>
+                {% if i.complaint_reply %}
+                    {{ i.complaint_reply }}
+                {% else %}
+                    <span style="color:#888;">Waiting for Reply</span>
+                {% endif %}
+            </td>
             <td>
                 <a href="{% url 'Editor:delcomplaint' i.id %}">Delete</a>
             </td>
         </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" align="center">No Complaints Found</td>
+        </tr>
         {% endfor %}
-
     </table>
 
 </div>
 
-
 {% if msg %}
 <script>
-    alert("{{msg}}");
+    alert("{{ msg }}");
     window.location = "{% url 'Editor:Complaint' %}";
 </script>
 {% endif %}

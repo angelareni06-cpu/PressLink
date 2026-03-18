@@ -26,9 +26,13 @@ urlpatterns = [
 
     # ===== MY NEWS TRACKING =====
     path("MyNews/", views.MyNews, name="MyNews"),
+    path("ViewNews/", views.ViewNews, name="ViewNews"),
     path("AcceptAmount/<int:id>/", views.AcceptAmount, name="AcceptAmount"),
     path("RejectAmount/<int:id>/", views.RejectAmount, name="RejectAmount"),
     path("ConfirmEdits/<int:id>/", views.ConfirmEdits, name="ConfirmEdits"),
+
+    # ===== PUBLIC NEWS/ADS =====
+    path("ViewAdvertisements/", views.ViewAdvertisements, name="ViewAdvertisements"),
 
     # ===== COMPLAINT =====
     path("Complaint/", views.Complaint, name="Complaint"),

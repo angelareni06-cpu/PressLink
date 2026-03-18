@@ -129,6 +129,35 @@ def MyNews(request):
     else:
         return redirect("Guest:Login")
 
+
+def ViewNews(request):
+    if "uid" in request.session:
+        user = tbl_user.objects.get(id=request.session["uid"])
+        today = date.today()
+        active_subscription = tbl_subscription.objects.filter(user=user, subscription_status=1, expiry_date__gte=today).first()
+        if not active_subscription:
+            return render(request, 'User/ViewNews.html', {
+                'msg': 'A valid subscription is required to view published news.',
+                'newsdata': []
+            })
+
+        newsdata = tbl_news.objects.filter(news_status=10).order_by('-news_date')
+        return render(request, 'User/ViewNews.html', {
+            'newsdata': newsdata,
+            'subscription': active_subscription
+        })
+    else:
+        return redirect("Guest:Login")
+
+
+def ViewAdvertisements(request):
+    if "uid" in request.session:
+        advdata = tbl_advertisement.objects.filter(advertisement_status=6).order_by('-advertisement_date')
+        return render(request, 'User/ViewAdvertisements.html', {'advdata': advdata})
+    else:
+        return redirect("Guest:Login")
+
+
 def AjaxSubcategory(request):
     category = tbl_category.objects.get(id=request.GET.get("cid"))
     subcategory = tbl_subcategory.objects.filter(category=category)
@@ -150,9 +179,13 @@ def delfile(request, id, fid):
     return redirect("User:UploadF", fid)
 
 def ViewUpdatesF(request, fid):
-    newsdata = tbl_news.objects.get(id=fid)
-    updatedataf = tbl_newsupdatesr.objects.filter(news=newsdata)
-    return render(request, 'User/ViewUpdatesF.html', {'news': newsdata, 'updates': updatedataf, 'fid': fid})
+    if "uid" in request.session:
+        newsdata = tbl_news.objects.filter(id=fid, user_id=request.session['uid']).first()
+        if not newsdata:
+            return redirect('User:MyNews')
+        updatedataf = tbl_newsupdatesr.objects.filter(news=newsdata)
+        return render(request, 'User/ViewUpdatesF.html', {'news': newsdata, 'updates': updatedataf, 'fid': fid})
+    return redirect('Guest:Login')
 
 def Complaint(request):
     if "uid" in request.session:
@@ -222,11 +255,17 @@ def Logout(request):
 
 def viewplan(request):
     plans = tbl_plan.objects.all()
-    subscription= tbl_subscription.objects.get(user=request.session['uid'],subscription_status=1)
-    today = date.today()
-    remaining_days = (subscription.expiry_date - today).days
-    if remaining_days < 0:
-        remaining_days = 0
+    subscription = None
+    remaining_days = 0
+    if "uid" in request.session:
+        try:
+            subscription = tbl_subscription.objects.filter(user=request.session['uid'], subscription_status=1).latest('expiry_date')
+            today = date.today()
+            remaining_days = (subscription.expiry_date - today).days
+            if remaining_days < 0:
+                remaining_days = 0
+        except tbl_subscription.DoesNotExist:
+            subscription = None
     return render(request,"User/ViewPlan.html",{'plans':plans,'subscription':subscription,'remaining_days': remaining_days})
 
 def Subscribe(request, pid):

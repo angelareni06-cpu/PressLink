@@ -147,7 +147,8 @@
                     <div class="navbar-nav mx-auto border-top">
                         <a href="#section_home" class="nav-item nav-link active">Home</a>
                         <a href="{% url 'Editor:MyProfile' %}" class="nav-item nav-link">My Profile</a>
-                        <a href="{% url 'Editor:ViewVerifiednews' %}" class="nav-item nav-link">View Published News</a>
+                        <a href="{% url 'Editor:ViewVerifiednews' %}" class="nav-item nav-link">Available News</a>
+                        <a href="{% url 'Editor:MyTakenNews' %}" class="nav-item nav-link">My Taken News</a>
                         <a href="#section_contact" class="nav-item nav-link">Contact Us</a>
                         <a href="{% url 'Editor:Logout' %}"
                             class="nav-item nav-link btn btn-primary text-white ms-3 rounded-pill px-4">Logout</a>
@@ -168,9 +169,9 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn-search btn border border-primary btn-md-square rounded-circle bg-white my-auto"
+                <!-- <button class="btn-search btn border border-primary btn-md-square rounded-circle bg-white my-auto"
                     data-bs-toggle="modal" data-bs-target="#searchModal"><i
-                        class="fas fa-search text-primary"></i></button>
+                        class="fas fa-search text-primary"></i></button> -->
         </div>
     </div>
     </nav>

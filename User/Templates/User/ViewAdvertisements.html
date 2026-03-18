@@ -1,0 +1,126 @@
+{% extends 'User/Header.html' %}
+{% block content %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px 0;
+    }
+
+    h3 {
+        text-align: center;
+        color: #333;
+        font-weight: normal;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 95%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 10px 12px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #333;
+        color: #fff;
+        font-weight: normal;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #e6f7ff;
+        transition: 0.3s;
+    }
+
+    td a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    td a:hover {
+        background-color: #e6f0ff;
+        color: #0056b3;
+    }
+
+    td {
+        max-width: 250px;
+        word-wrap: break-word;
+    }
+
+    .no-data {
+        text-align: center;
+        margin-top: 40px;
+        color: #666;
+        font-size: 16px;
+    }
+
+    @media screen and (max-width: 768px) {
+        table, th, td {
+            font-size: 13px;
+        }
+        td img {
+            width: 60px;
+            height: 60px;
+        }
+    }
+</style>
+
+<h3>Ads For All Users</h3>
+
+{% if advdata %}
+<table>
+    <thead>
+        <tr>
+            <th>Sl.No</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Image</th>
+            <th>Posted By</th>
+            <th>Status</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in advdata %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.advertisement_title }}</td>
+            <td>{{ i.advertisement_content }}</td>
+            <td>
+                {% if i.advertisement_file %}
+                <a href="{{ i.advertisement_file.url }}" target="_blank">View</a>
+                {% else %}
+                No File
+                {% endif %}
+            </td>
+            <td>{{ i.user_id.user_name }}</td>
+            <td>Published</td>
+            <td>₹ {{ i.advertisement_amount|default:"N/A" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="no-data">No active advertisements at the moment.</div>
+{% endif %}
+
+{% endblock %}
