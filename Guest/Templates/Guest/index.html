@@ -194,54 +194,206 @@
     </style>
 </head>
 <body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Main Banner Image -->
-    <div class="hero">
-        <img src="{% static 'Main/img/Welcome to PressLink newsroom scene.png' %}" alt="Newsroom">
-    </div>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            color: #222;
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(rgba(75, 63, 63, 0.65), rgba(28, 26, 26, 0.65)),
+                        url("{% static 'Main/img/Confident reporter in a newsroom.png' %}") center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            text-align: center;
+            color: white;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        .hero-content h1 {
+            font-size: 52px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            color: #f1f1f1;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-buttons a {
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #0f57a4;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #80b5db;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #111;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            padding: 70px 20px;
+            background: white;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #222;
+        }
+
+        .feature-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .feature-card {
+            background: #f8f9fc;
+            padding: 30px 25px;
+            width: 320px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #328bd5;
+        }
+
+        .feature-card p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 85vh;
+            }
+
+            .hero-content h1 {
+                font-size: 34px;
+            }
+
+            .hero-content p {
+                font-size: 17px;
+            }
+
+            .features h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+           <h1>WELCOME TO PRESSLINK</h1> 
+            <p>
+                A smart and professional news management platform for journalists, freelancers, verifiers and editors.
+                Create, upload, manage, and publish trusted news with speed, accuracy, and impact.
+            </p>
+            <div class="hero-buttons">
+                <a href="{% url 'Guest:UserRegistration' %}" class="btn-primary">Freelancer Registration</a>
+                <a href="{% url 'Guest:Reporter' %}" class="btn-secondary">Journalist Registration</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Why Choose PressLink?</h2>
+        <div class="feature-boxes">
+            <div class="feature-card">
+                <h3>Fast Publishing</h3>
+                <p>Journalists can upload and manage breaking stories quickly through an easy-to-use platform.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Editorial Control</h3>
+                <p>Editors can review and approve content before publication for quality and accuracy.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Trusted News Flow</h3>
+                <p>Readers receive structured, timely, and reliable updates from a professional newsroom system.</p>
+            </div>
+        </div>
+    </section>
 
 </body>
-
-
-            <div class="container py-5">
-    <div class="text-center mb-4">
-        <h2>Join With Us</h2>
-        <p>Select your role to register</p>
-    </div>
-
-    <div class="row justify-content-center">
-
-        <!-- Reporter Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card text-center shadow-lg border-0 p-4">
-                <div class="mb-3">
-                    <i class="bi bi-mic-fill text-primary" style="font-size:60px;"></i>
-                </div>
-                <h4>Reporter</h4>
-                <p>Share real stories and build trusted journalism.</p>
-                <a href="{% url 'Guest:Reporter' %}" class="btn btn-primary">
-                    Register as Reporter
-                </a>
-            </div>
-        </div>
-
-        <!-- Freelancer Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card text-center shadow-lg border-0 p-4">
-                <div class="mb-3">
-                    <i class="bi bi-pencil-square text-success" style="font-size:60px;"></i>
-                </div>
-                <h4>Freelancer</h4>
-                <p>Create ads and collaborate with reporters easily.</p>
-                <a href="{% url 'Guest:UserRegistration' %}" class="btn btn-success">
-                    Register as Freelancer
-                </a>
-            </div>
-        </div>
-
-    </div>
-</div>
-
 
             <!-- Local News -->
             <!-- <div class="col-md-6 col-lg-6 col-xl-3">
@@ -479,7 +631,7 @@
         <!-- Main Post Section End -->
 
         <!-- What PressLink Is Start -->
-<div class="container-fluid py-4 bg-light" style="background:#f9fbfd;" id="section_home">
+<!-- <div class="container-fluid py-4 bg-light" style="background:#f9fbfd;" id="section_home">
     <div class="container">
         <div class="row text-center g-4">
             
@@ -522,7 +674,7 @@
 
         </div>
     </div>
-</div>
+</div> -->
 <!-- What PressLink Is End -->
 
 

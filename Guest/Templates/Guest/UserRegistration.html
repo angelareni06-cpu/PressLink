@@ -1,9 +1,20 @@
-<style>
+{% extends 'Guest/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+
+   <style>
     body {
         margin: 0;
         padding: 30px;
         font-family: Segoe UI;
-        background: linear-gradient(to right, #e6f7ff, #ffffff, #e6fff2);
+        background: linear-gradient(to right, #f3f4f6, #ffffff, #f8f8f8);
     }
 
     form {
@@ -12,7 +23,8 @@
         background: white;
         padding: 30px;
         border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border-top: 5px solid #d90429;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.12);
     }
 
     table {
@@ -22,7 +34,7 @@
 
     td:first-child {
         font-weight: bold;
-        color: #0099cc;
+        color: #111111;
         width: 230px;
         padding: 12px;
     }
@@ -37,8 +49,19 @@
         width: 100%;
         padding: 10px;
         border-radius: 6px;
-        border: 1px solid #b3e0ff;
+        border: 1px solid #d1d5db;
         box-sizing: border-box;
+        background: #fafafa;
+        font-size: 14px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #d90429;
+        background: #ffffff;
+        box-shadow: 0 0 5px rgba(217, 4, 41, 0.18);
     }
 
     textarea {
@@ -47,22 +70,29 @@
     }
 
     input[type="submit"] {
-        background: linear-gradient(to right, #66ccff, #66cc99);
+        background: linear-gradient(to right, #111111, #d90429);
         color: white;
         border: none;
         padding: 12px 40px;
         font-size: 16px;
+        font-weight: bold;
         border-radius: 25px;
         cursor: pointer;
+        transition: 0.3s;
     }
-</style>
-{% extends 'Guest/Header.html' %}
-{% block content %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+    input[type="submit"]:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 12px rgba(217, 4, 41, 0.25);
+    }
+</style> 
 
-    <table>
+</head>
+
+<body>
+    <form method="post" enctype="multipart/form-data">
+       {% csrf_token %}
+        <table border="1" align="center">
 
         <tr>
             <td>Name *</td>
@@ -184,6 +214,9 @@
 
     </table>
 </form>
+</body>
+
+</html>
 
 {% if msg %}
 <script>

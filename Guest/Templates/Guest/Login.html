@@ -7,143 +7,148 @@
     <title>Login</title>
 
     <style>
-        /* Page Background */
+    * {
+        box-sizing: border-box;
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Segoe UI;
-            height: 100vh;
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background:
+            linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+            url("https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
 
-            background: linear-gradient(135deg, #d6f5ff, #e6fff2, #ffffff);
+    form {
+        background: rgba(255, 255, 255, 0.96);
+        padding: 45px 35px;
+        border-radius: 18px;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        animation: fadein 0.9s ease;
+        width: 380px;
+        border-top: 5px solid #d90429;
+        position: relative;
+    }
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    form::before {
+        content: "PRESSLINK LOGIN";
+        display: block;
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+    }
+
+    form::after {
+        content: "Secure access to your newsroom";
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+        margin-top: -15px;
+        margin-bottom: 25px;
+    }
+
+    @keyframes fadein {
+        from {
+            opacity: 0;
+            transform: translateY(-25px);
         }
 
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-        /* Login Card */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    table,
+    td {
+        border: none;
+    }
+
+    tr {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 18px;
+    }
+
+    td:first-child {
+        color: #111;
+        font-weight: 600;
+        font-size: 15px;
+        padding-bottom: 8px;
+    }
+
+    td:last-child {
+        width: 100%;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 13px 14px;
+        border-radius: 10px;
+        border: 1px solid #d1d1d1;
+        outline: none;
+        font-size: 15px;
+        background: #f8f8f8;
+        transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        border: 1px solid #d90429;
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(217, 4, 41, 0.12);
+    }
+
+    input[type="submit"] {
+        margin-top: 10px;
+        background: linear-gradient(to right, #111111, #d90429);
+        color: white;
+        border: none;
+        padding: 13px 35px;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s ease;
+        width: 100%;
+        letter-spacing: 0.5px;
+    }
+
+    input[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(217, 4, 41, 0.28);
+    }
+
+    @media (max-width: 480px) {
         form {
-            background-color: white;
-
-            padding: 40px;
-
-            border-radius: 15px;
-
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
-
-            animation: fadein 1s;
+            width: 90%;
+            padding: 35px 20px;
         }
 
-
-        /* Animation */
-
-        @keyframes fadein {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0px);
-            }
+        form::before {
+            font-size: 22px;
         }
-
-
-        /* Table */
-
-        table {
-            border-collapse: collapse;
-        }
-
-
-        /* Table Heading Style */
-
-        table tr:first-child td {
-            padding-top: 10px;
-        }
-
-
-        /* Labels */
-
-        td:first-child {
-            color: #0099cc;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-
-        /* Inputs */
-
-        input[type="text"],
-        input[type="password"] {
-            width: 250px;
-
-            padding: 10px;
-
-            border-radius: 8px;
-
-            border: 1px solid #b3e0ff;
-
-            outline: none;
-
-            margin: 5px;
-        }
-
-
-        /* Input Focus */
-
-        input:focus {
-            border: 1px solid #66cc99;
-
-            box-shadow: 0 0 8px #ccffee;
-        }
-
-
-        /* Button */
-
-        input[type="submit"] {
-            margin-top: 15px;
-
-            background: linear-gradient(to right, #66ccff, #66cc99);
-
-            color: white;
-
-            border: none;
-
-            padding: 12px 35px;
-
-            border-radius: 25px;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition: 0.3s;
-        }
-
-
-        /* Button Hover */
-
-        input[type="submit"]:hover {
-            transform: scale(1.05);
-
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        }
-
-
-        /* Optional Border Remove */
-
-        table,
-        td {
-            border: none;
-        }
-    </style>
+    }
+</style>
 
 </head>
 

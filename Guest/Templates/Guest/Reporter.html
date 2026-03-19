@@ -10,150 +10,200 @@
     <title>Reporter Registration</title>
 
     <style>
-        /* Page background */
+    * {
+        box-sizing: border-box;
+    }
 
-        body {
-            margin: 0;
-            padding: 30px;
+    body {
+        margin: 0;
+        padding: 50px 20px;
+        font-family: "Segoe UI", sans-serif;
+        min-height: 100vh;
+        background:
+            linear-gradient(to bottom, #111111 0, #111111 180px, #f5f5f7 180px, #f5f5f7 100%);
+    }
 
-            font-family: Segoe UI;
+    form {
+        width: 760px;
+        max-width: 100%;
+        margin: auto;
+        background: #ffffff;
+        padding: 38px 32px;
+        border-radius: 20px;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.14);
+        border: 1px solid #ececec;
+        border-top: 6px solid #d90429;
+        animation: fadeIn 0.8s ease;
+        position: relative;
+    }
 
-            background: linear-gradient(to right, #e6f7ff, #ffffff, #e6fff2);
+    form::before {
+        content: "REPORTER REGISTRATION";
+        display: block;
+        text-align: center;
+        font-size: 31px;
+        font-weight: 700;
+        color: #111111;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+
+    form::after {
+        content: "Join PressLink and start your newsroom journey";
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: #6b6b6b;
+        margin-bottom: 28px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(24px);
         }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
 
-        /* Form container */
+    table,
+    td {
+        border: none;
+    }
+
+    tr {
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    td:first-child {
+        width: 220px;
+        padding: 14px 12px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #1c1c1c;
+        vertical-align: top;
+    }
+
+    td:last-child {
+        padding: 14px 12px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="date"],
+    input[type="file"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 13px 14px;
+        font-size: 14px;
+        border-radius: 12px;
+        border: 1px solid #d9d9d9;
+        background: #fafafa;
+        transition: all 0.3s ease;
+        outline: none;
+    }
+
+    textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="date"]:focus,
+    input[type="file"]:focus,
+    select:focus,
+    textarea:focus {
+        background: #fff;
+        border-color: #d90429;
+        box-shadow: 0 0 0 4px rgba(217, 4, 41, 0.10);
+    }
+
+    input[type="radio"] {
+        margin-left: 10px;
+        margin-right: 6px;
+        accent-color: #d90429;
+        transform: scale(1.05);
+    }
+
+    input[type="file"] {
+        background: #fff;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    input[type="submit"] {
+        background: linear-gradient(90deg, #111111, #d90429);
+        color: #fff;
+        border: none;
+        padding: 14px 42px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 32px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 240px;
+        letter-spacing: 0.6px;
+    }
+
+    input[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(217, 4, 41, 0.22);
+    }
+
+    input[type="submit"]:active {
+        transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+        body {
+            padding: 20px 12px;
+            background: #f5f5f7;
+        }
 
         form {
-            width: 600px;
-
-            margin: auto;
-
-            background: white;
-
-            padding: 30px;
-
-            border-radius: 12px;
-
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 24px 16px;
+            border-radius: 16px;
         }
 
-
-        /* Table */
-
-        table {
-            width: 100%;
-
-            border-collapse: collapse;
+        form::before {
+            font-size: 24px;
         }
 
-
-        /* Labels */
-
-        td:first-child {
-            font-weight: bold;
-
-            color: #0099cc;
-
-            width: 200px;
-
-            padding: 12px;
+        form::after {
+            font-size: 13px;
         }
 
+        tr {
+            display: block;
+            margin-bottom: 8px;
+        }
 
-        /* Fields */
-
+        td:first-child,
         td:last-child {
-            padding: 12px;
-        }
-
-
-        /* Inputs */
-
-        input[type="text"],
-        input[type="password"],
-        input[type="date"],
-        input[type="file"],
-        select,
-        textarea {
+            display: block;
             width: 100%;
-
-            padding: 10px;
-
-            border-radius: 6px;
-
-            border: 1px solid #b3e0ff;
-
-            box-sizing: border-box;
-
-            font-size: 14px;
+            padding: 8px 6px;
         }
-
-
-        /* textarea */
-
-        textarea {
-            height: 80px;
-
-            resize: none;
-        }
-
-
-        /* radio */
-
-        input[type="radio"] {
-            margin-left: 10px;
-        }
-
-
-        /* focus */
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #66cc99;
-
-            outline: none;
-
-            box-shadow: 0 0 5px #ccffee;
-        }
-
-
-        /* button */
 
         input[type="submit"] {
-            background: linear-gradient(to right, #66ccff, #66cc99);
-
-            color: white;
-
-            border: none;
-
-            padding: 12px 35px;
-
-            font-size: 16px;
-
-            border-radius: 25px;
-
-            cursor: pointer;
-
-            margin-top: 10px;
+            width: 100%;
         }
-
-
-        /* hover */
-
-        input[type="submit"]:hover {
-            background: linear-gradient(to right, #33bbff, #33cc88);
-        }
-
-
-        /* remove border */
-
-        table,
-        td {
-            border: none;
-        }
-    </style>
+    }
+</style>
 
 </head>
 
