@@ -251,4 +251,14 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date();
+        var minAge = 18;
+        var maxDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+        var maxDateString = maxDate.toISOString().split('T')[0];
+        document.querySelector('input[name="txt_dob"]').setAttribute('max', maxDateString);
+    });
+</script>
+
 {% endblock %}
