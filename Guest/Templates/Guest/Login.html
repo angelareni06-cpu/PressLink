@@ -148,11 +148,32 @@
             font-size: 22px;
         }
     }
+
+    .back-link {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 10px 18px;
+    border-radius: 25px;
+    transition: 0.3s ease;
+    z-index: 10;
+}
+
+.back-link:hover {
+    background: rgba(217, 4, 41, 0.9);
+    transform: translateY(-2px);
+}
 </style>
 
 </head>
 
 <body>
+    <a href="{% url 'Guest:index' %}" class="back-link">← Back</a>
     <form action="" method="post">
         {%csrf_token %}
         <table border="1" align="center">

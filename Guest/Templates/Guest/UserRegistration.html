@@ -93,7 +93,7 @@
     <form method="post" enctype="multipart/form-data">
        {% csrf_token %}
         <table border="1" align="center">
-
+        <h1 align="center" style="color:#070606;">User Registration</h1>
         <tr>
             <td>Name *</td>
             <td><input type="text" name="txt_name" required pattern="^[A-Z]+[a-zA-Z ]*$"></td>
@@ -188,7 +188,7 @@
 
         <tr>
             <td>Short Bio</td>
-            <td><input type="text" name="txt_bio"></td>
+            <td><textarea name="txt_bio" id="txt_bio"></textarea></td>
         </tr>
 
         <tr>

@@ -112,7 +112,7 @@
                     </div>
                         <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
                        <div class="navbar-nav mx-auto border-top">
-                        <a href="#section_home" class="nav-item nav-link active">Home</a>
+                        <a href="{% url 'Guest:index' %}" class="nav-item nav-link active">Home</a>
                         <a href="#section_about" class="nav-item nav-link" >About PressLink</a>
                         <a href="#section_works" class="nav-item nav-link">How PressLink Works</a>
                         <a href="#section_contact" class="nav-item nav-link">Contact Us</a>
@@ -189,7 +189,7 @@
             height: 200px;
             object-fit: cover;
             border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0px 4px 8px rgba(248, 233, 233, 0.2);
         }
     </style>
 </head>
@@ -211,7 +211,7 @@
             position: relative;
             width: 100%;
             min-height: 100vh;
-            background: linear-gradient(rgba(75, 63, 63, 0.65), rgba(28, 26, 26, 0.65)),
+            background: linear-gradient(rgba(18, 15, 15, 0.65), rgba(28, 26, 26, 0.65)),
                         url("{% static 'Main/img/Confident reporter in a newsroom.png' %}") center/cover no-repeat;
             display: flex;
             align-items: center;
@@ -231,6 +231,7 @@
             margin-bottom: 20px;
             font-weight: bold;
             line-height: 1.2;
+            color: white;
         }
 
         .hero-content p {

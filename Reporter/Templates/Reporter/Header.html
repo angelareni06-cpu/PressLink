@@ -107,7 +107,7 @@
                 </div>
                 <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
                     <div class="navbar-nav mx-auto border-top">
-                        <a href="#section_home" class="nav-item nav-link active">Home</a>
+                        <a href="{% url 'Reporter:Homepage' %}" class="nav-item nav-link active">Home</a>
                         <a href="{% url 'Reporter:MyProfile' %}" class="nav-item nav-link">My Profile</a>
                         <a href="{% url 'Reporter:AddNews' %}" class="nav-item nav-link">News Upload</a>
                         <a href="{% url 'Reporter:MyNews' %}" class="nav-item nav-link">My News</a>
