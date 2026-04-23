@@ -9,7 +9,7 @@ from User.models import *
 
 def Homepage(request):
     if "Rid" in request.session:
-        rep = tbl_reporter.objects.get(id=request.session['Rid'])
+        rep = tbl_reporter.objects.get(id=request.session['Rid']) 
         return render(request, 'Reporter/HomePage.html', {"rep": rep})
     return redirect("Guest:Login")
 

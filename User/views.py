@@ -10,7 +10,8 @@ from django.http import HttpResponse
 
 def Homepage(request):
     if "uid" in request.session:
-        return render(request, 'User/Homepage.html')
+        rep = tbl_user.objects.get(id=request.session['uid'])
+        return render(request, 'User/Homepage.html',  {"rep": rep})
     else:
         return redirect("Guest:Login")
 
@@ -152,8 +153,17 @@ def ViewNews(request):
 
 def ViewAdvertisements(request):
     if "uid" in request.session:
+        user = tbl_user.objects.get(id=request.session["uid"])
+        today = date.today()
+        active_subscription = tbl_subscription.objects.filter(user=user, subscription_status=1, expiry_date__gte=today).first()
+        if not active_subscription:
+            return render(request, 'User/ViewAdvertisements.html', {
+                'msg': 'A valid subscription is required to view published Advertisement.',
+                'advdata': []
+            })
+        
         advdata = tbl_advertisement.objects.filter(advertisement_status=6).order_by('-advertisement_date')
-        return render(request, 'User/ViewAdvertisements.html', {'advdata': advdata})
+        return render(request, 'User/ViewAdvertisements.html', {'advdata': advdata, 'subscription': active_subscription})
     else:
         return redirect("Guest:Login")
 

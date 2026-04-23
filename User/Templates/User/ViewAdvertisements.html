@@ -61,6 +61,25 @@
         color: #0056b3;
     }
 
+    .back-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-back {
+        display: inline-block;
+        padding: 8px 16px;
+        color: #fff;
+        background-color: #007bff;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .btn-back:hover {
+        background-color: #0056b3;
+    }
+
     td {
         max-width: 250px;
         word-wrap: break-word;
@@ -95,8 +114,7 @@
             <th>Content</th>
             <th>Image</th>
             <th>Posted By</th>
-            <th>Status</th>
-            <th>Amount</th>
+            <th>Uploaded Date</th>
         </tr>
     </thead>
     <tbody>
@@ -113,8 +131,7 @@
                 {% endif %}
             </td>
             <td>{{ i.user_id.user_name }}</td>
-            <td>Published</td>
-            <td>₹ {{ i.advertisement_amount|default:"N/A" }}</td>
+            <td>{{ i.advertisement_date }}</td>
         </tr>
         {% endfor %}
     </tbody>
