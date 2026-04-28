@@ -27,6 +27,17 @@
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.12);
     }
 
+     form::before {
+        content: "FREELANCER REGISTRATION";
+        display: block;
+        text-align: center;
+        font-size: 31px;
+        font-weight: 700;
+        color:#070606;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+
     table {
         width: 100%;
         border-collapse: collapse;
@@ -93,7 +104,6 @@
     <form method="post" enctype="multipart/form-data">
        {% csrf_token %}
         <table border="1" align="center">
-        <h1 align="center" style="color:#070606;">User Registration</h1>
         <tr>
             <td>Name *</td>
             <td><input type="text" name="txt_name" required pattern="^[A-Z]+[a-zA-Z ]*$"></td>

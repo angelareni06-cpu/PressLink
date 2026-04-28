@@ -395,7 +395,7 @@
                         <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false"
                             aria-controls="icons">
                             <i class="icon-contract menu-icon"></i>
-                            <span class="menu-title">Types</span>
+                            <span class="menu-title">Master Entries</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="icons">
@@ -447,25 +447,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Admin:Advertisement' %}">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">Advertisement</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Admin:viewComplaints' %}">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">View complaints</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Admin:Logout' %}">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <a class="nav-link" href="{% url 'Admin:Advertisement' %}">
+              <i class="icon-bell menu-icon"></i>
+              <span class="menu-title">Advertisement</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Admin:viewComplaints' %}">
+              <i class="icon-ban menu-icon"></i>
+              <span class="menu-title">View complaints</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Admin:Logout' %}">
+              <i class="icon-power menu-icon"></i>
+              <span class="menu-title">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">

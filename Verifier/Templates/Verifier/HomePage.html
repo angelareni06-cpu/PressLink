@@ -131,9 +131,8 @@
                        <div class="navbar-nav mx-auto border-top">
                         <a href="{% url 'Verifier:Homepage' %}" class="nav-item nav-link active">Home</a>
                         <a href="{% url 'Verifier:MyProfile' %}" class="nav-item nav-link" >My Profile</a>
-                        <a href="{% url 'Verifier:ViewNewsR' %}" class="nav-item nav-link" >View Reporter news </a>
-                        <a href="{% url 'Verifier:ViewNewsF' %}" class="nav-item nav-link">View Freelancer news</a>
-                        <a href="{% url 'Verifier:ViewAdvertisement' %}" class="nav-item nav-link" >View Advertisement </a>
+                       <a href="#section_about" class="nav-item nav-link" >About PressLink</a>
+                        <a href="#section_works" class="nav-item nav-link">How PressLink Works</a>
                         <a href="#section_contact" class="nav-item nav-link">Contact Us</a>
                         <a href="{% url 'Verifier:Logout' %}" class="nav-item nav-link btn btn-primary text-white ms-3 rounded-pill px-4">Logout</a> 
                     </div>
@@ -181,6 +180,67 @@
         </div>
         <!-- Modal Search End -->
 
+<style>
+.card-box {
+  border-radius: 15px;
+  color: white;
+  padding: 25px;
+  text-align: center;
+  transition: 0.3s;
+}
+.card-box:hover {
+  transform: scale(1.05);
+}
+
+/* Colors */
+.bg1 { background: linear-gradient(45deg, #36d1dc, #5b86e5); }
+.bg2 { background: linear-gradient(45deg, #ff9966, #ff5e62); }
+.bg3 { background: linear-gradient(45deg, #00c9ff, #92fe9d); }
+
+.card-box i {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+</style>
+
+<div class="row">
+
+  <!-- Reporter News -->
+  <div class="col-md-4">
+    <a href="{% url 'Verifier:ViewNewsR' %}" style="text-decoration:none;">
+      <div class="card-box bg1">
+        <i class="icon-note"></i>
+        <h4>Reporter News</h4>
+        <p>View and verify reporter submitted news</p>
+      </div>
+    </a>
+  </div>
+
+  <!-- Freelancer News -->
+  <div class="col-md-4">
+    <a href="{% url 'Verifier:ViewNewsF' %}" style="text-decoration:none;">
+      <div class="card-box bg2">
+        <i class="icon-user"></i>
+        <h4>Freelancer News</h4>
+        <p>Check freelancer submitted news</p>
+      </div>
+    </a>
+  </div>
+
+  <!-- Advertisement -->
+  <div class="col-md-4">
+    <a href="{% url 'Verifier:ViewAdvertisement' %}" style="text-decoration:none;">
+      <div class="card-box bg3">
+        <i class="icon-megaphone"></i>
+        <h4>Advertisements</h4>
+        <p>View all advertisement details</p>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+        
 <!-- Features Start -->
 <!-- <div class="container-fluid features mb-5">
     <div class="container py-5">
@@ -1601,7 +1661,7 @@
             ⚠️ Facing an issue or have a complaint?
         </p>
 
-        <a href="{%  url 'Guest:Login' %}"
+        <a href="{%  url 'Verifier:Complaint' %}"
            class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
             Submit Your Complaint →
         </a>

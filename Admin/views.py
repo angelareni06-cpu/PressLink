@@ -469,7 +469,7 @@ def ViewComplaints(request):
             'user_complaints': user_complaints,
             'reporter_complaints': reporter_complaints,
             'verifier_complaints': verifier_complaints,
-            'editor_complaints': editor_complaints
+            'editor_complaints': editor_complaints,
         })
     return redirect("Guest:Login")
 

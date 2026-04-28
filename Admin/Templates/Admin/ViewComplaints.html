@@ -239,8 +239,12 @@
                     <span class="status-pending">Pending</span>
                     {% endif %}
                 </td>
-                <td>
-                    <a href="{% url 'Admin:Reply' i.id %}">Reply</a>
+               <td>
+                    {% if i.complaint_status == 1 %}
+                        {{ i.complaint_reply }}
+                    {% else %}
+                        <a href="{% url 'Admin:Reply' i.id %}">Reply</a>
+                    {% endif %}
                 </td>
             </tr>
             {% empty %}
